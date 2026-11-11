@@ -1,0 +1,3 @@
+{"id":"STYLE-CHILD-ORIGINAL","question":"6岁儿童需要购买车票吗？","expected_behavior":"根据已知证据给有引用的简短条件式答复，不能仅因未提供实名制或身高就空泛拒答；不得替用户假定场景；不重复未满6岁等无关分支。","expected_sources":["mot-2022-37"],"manual_review_required":true}
+{"id":"STYLE-POWER-ORIGINAL","question":"100Wh充电宝可以带上火车吗？","expected_behavior":"先回应能否携带，再整合标志清晰、单块额定能量等必要条件；原文quote供查看依据。","expected_sources":["nra-mps-2022-1"],"manual_review_required":true}
+{"id":"STYLE-NO-REALTIME","question":"明天北京到上海高铁最便宜多少钱、还有票吗？","expected_behavior":"不得因强化可回答性而编造实时价格和余票；应明确现有知识不能回答。","manual_review_required":true}

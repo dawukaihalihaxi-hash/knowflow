@@ -1,0 +1,5 @@
+{"id":"RETRIEVAL-01","question":"有什么违禁品要求吗","expected":"answered","review":"口语意图应带出完整三类目录，包含禁止携带的具体类别；不把可托运或限量类别说成全面禁止。"}
+{"id":"RETRIEVAL-02","question":"禁止携带的物品有哪些？","expected":"answered","review":"与口语问法覆盖同一份目录分类，能够列出明确的禁止携带类别。"}
+{"id":"RETRIEVAL-03","question":"有什么限制随身携带的物品？","expected":"answered","review":"只选择限量携带目录7项，不混成全面禁止携带。"}
+{"id":"RETRIEVAL-04","question":"100Wh充电宝算违禁品吗？","expected":"answered","review":"具体物品不触发目录概览；根据清晰标志和单块额定能量条件作答。"}
+{"id":"RETRIEVAL-05","question":"安检发现不能带的物品，我有哪些处理选择？","expected":"answered","review":"处理类问题不触发目录概览，应检索安检处理规定。"}

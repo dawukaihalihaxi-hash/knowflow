@@ -1,0 +1,10 @@
+{
+  "eligible_chunks": 202,
+  "dimensions": 1024,
+  "embedding_batches": 21,
+  "index_id": "dd9c3f4ae8126bd2621ff101b2c91a4f73836093ea8de3226f4f7048ed0062a5",
+  "model": "text-embedding-v4",
+  "input_characters": 26057,
+  "network_called": false,
+  "note": "Character count is not a tokenizer or a cost estimate."
+}

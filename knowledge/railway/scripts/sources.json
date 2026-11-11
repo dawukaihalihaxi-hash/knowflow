@@ -1,0 +1,142 @@
+[
+  {
+    "id": "mot-2022-37",
+    "title": "铁路旅客运输规程",
+    "issuer": "交通运输部",
+    "document_number": "交通运输部令2022年第37号",
+    "issued_date": "2022-11-03",
+    "published_date": "2022-11-17",
+    "effective_date": "2023-01-01",
+    "url": "https://xxgk.mot.gov.cn/jigou/fgs/202211/t20221117_3710710.html",
+    "selector": ".TRS_UEDITOR",
+    "expected_articles": 52,
+    "type": "department_rule",
+    "validity": "官方规章目录标示有效（证据见evidence）",
+    "ingestion_allowed": true,
+    "validity_evidence": [
+      "evidence/validity-current.html",
+      "evidence/validity-page2.html"
+    ]
+  },
+  {
+    "id": "nra-mps-2022-1",
+    "title": "铁路旅客禁止、限制携带和托运物品目录",
+    "issuer": "国家铁路局、公安部",
+    "document_number": "国家铁路局 公安部公告2022年第1号",
+    "issued_date": "2022-05-17",
+    "published_date": "2022-05-27",
+    "effective_date": "2022-07-01",
+    "url": "https://source.nra.gov.cn/xxgk/gkml/ztjg/gfzd/gfxw/202205/t20220527_326566.shtml",
+    "selector": ".Custom_UnionStyle",
+    "expected_articles": 0,
+    "type": "normative_notice",
+    "validity": "公布并施行，未发现废止；未取得明确有效性字段",
+    "ingestion_allowed": true
+  },
+  {
+    "id": "mot-2022-39",
+    "title": "铁路旅客车票实名制管理办法",
+    "issuer": "交通运输部",
+    "document_number": "交通运输部令2022年第39号",
+    "issued_date": "2022-11-18",
+    "published_date": "2022-11-25",
+    "effective_date": "2023-01-01",
+    "url": "https://xxgk.mot.gov.cn/2020/jigou/fgs/202211/t20221125_3714804.html",
+    "selector": ".TRS_UEDITOR",
+    "expected_articles": 32,
+    "type": "department_rule",
+    "validity": "官方规章目录标示有效（证据见evidence）",
+    "ingestion_allowed": true,
+    "validity_evidence": [
+      "evidence/validity-current.html",
+      "evidence/validity-page2.html"
+    ]
+  },
+  {
+    "id": "mot-2023-21",
+    "title": "铁路旅客运输安全检查管理办法",
+    "issuer": "交通运输部",
+    "document_number": "交通运输部令2023年第21号",
+    "issued_date": "2023-12-17",
+    "published_date": "2024-01-02",
+    "effective_date": "2024-02-01",
+    "url": "https://source.nra.gov.cn/xxgk/gkml/ztjg/gfzd/bmgz/202401/t20240102_344299.shtml",
+    "selector": ".Custom_UnionStyle",
+    "expected_articles": 52,
+    "type": "department_rule",
+    "validity": "官方规章目录标示有效（证据见evidence）",
+    "ingestion_allowed": true,
+    "validity_evidence": [
+      "evidence/validity-current.html",
+      "evidence/validity-page2.html"
+    ]
+  },
+  {
+    "id": "mot-2023-5",
+    "title": "铁路运输服务质量监督管理办法",
+    "issuer": "交通运输部",
+    "document_number": "交通运输部令2023年第5号",
+    "issued_date": "2023-05-08",
+    "published_date": "2023-05-22",
+    "effective_date": "2023-07-01",
+    "url": "https://xxgk.mot.gov.cn/jigou/fgs/202305/t20230519_3829906.html",
+    "selector": ".TRS_UEDITOR",
+    "expected_articles": 37,
+    "type": "department_rule",
+    "validity": "官方规章目录标示有效（证据见evidence）",
+    "ingestion_allowed": true,
+    "validity_evidence": [
+      "evidence/validity-current.html",
+      "evidence/validity-page2.html"
+    ]
+  },
+  {
+    "id": "moe-cr-2023-4",
+    "title": "关于进一步便利普通高等学校学生购买优惠火车票的通知",
+    "issuer": "教育部办公厅、国铁集团办公厅",
+    "document_number": "教学厅函〔2023〕4号",
+    "issued_date": "2023-02-06",
+    "published_date": "2023-05-11",
+    "effective_date": null,
+    "url": "https://www.moe.gov.cn/srcsite/A15/s7063/202306/t20230605_1062839.html",
+    "selector": "#downloadContent",
+    "expected_articles": 0,
+    "type": "normative_notice",
+    "validity": "历史通知；部分购票操作已被2025/2026规则更新",
+    "ingestion_allowed": true,
+    "date_basis": "落款2023-02-06；页面元数据及页面显示发布日期2023-05-11"
+  },
+  {
+    "id": "cr-2026-rules",
+    "title": "中国国家铁路集团有限公司铁路旅客运输规程",
+    "issuer": "中国国家铁路集团有限公司",
+    "document_number": null,
+    "issued_date": null,
+    "published_date": null,
+    "effective_date": "2026-06-01",
+    "url": "https://mobile.12306.cn/otsmobile/h5/otsbussiness/info/transportationRules.html",
+    "selector": "javascript",
+    "expected_articles": 115,
+    "type": "enterprise_rule",
+    "validity": "版本待核：12306两端全文止于115条，2026官方新闻称116条；隔离留存，不导入",
+    "ingestion_allowed": false,
+    "version_warning": "不得将115条连续性通过等同于116条新版完整性通过"
+  },
+  {
+    "id": "cr-2025-student",
+    "title": "铁路部门进一步优化学生旅客购票出行优惠措施",
+    "issuer": "中国铁路12306",
+    "document_number": null,
+    "issued_date": null,
+    "published_date": "2025-08-15",
+    "effective_date": null,
+    "url": "https://www.12306.cn/mormhweb/zxdt/202508/t20250815_44642.html",
+    "selector": ".TRS_Editor",
+    "expected_articles": 0,
+    "type": "official_policy_announcement",
+    "validity": "2025政策发布原文；预计发售日期不作为确定生效日期",
+    "ingestion_allowed": true,
+    "published_date_basis": "URL归档路径20250815，正文未单列发布日期；不作为发文或确定生效日期",
+    "effective_date_note": "正文为预计9月6日发售，不能据此认定确定生效日"
+  }
+]

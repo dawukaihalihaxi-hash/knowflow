@@ -1,0 +1,57 @@
+[
+  {
+    "id": "mot-2023-21",
+    "pdf": "evidence/mot-2023-21-pdf.pdf",
+    "pages": 12,
+    "paragraphs": 93,
+    "alphanumeric_normalized_covered": 92,
+    "unmatched_paragraphs": [
+      "部长李小鹏"
+    ],
+    "note": "逐段匹配：NFKC、去独立页码、仅保留字母数字汉字、剔除彝文字形映射标点；不构成标点级一致性证明"
+  },
+  {
+    "id": "nra-mps-2022-1",
+    "pdf": "evidence/nra-mps-2022-1-pdf.pdf",
+    "pages": 8,
+    "paragraphs": 58,
+    "alphanumeric_normalized_covered": 58,
+    "unmatched_paragraphs": [],
+    "note": "逐段匹配：NFKC、去独立页码、仅保留字母数字汉字、剔除彝文字形映射标点；不构成标点级一致性证明"
+  },
+  {
+    "id": "mot-2022-37",
+    "pdf": "raw/mot-2022-37-P020221117319280656756.pdf",
+    "pages": 13,
+    "paragraphs": 111,
+    "alphanumeric_normalized_covered": 110,
+    "unmatched_paragraphs": [
+      "部长李小鹏"
+    ],
+    "note": "逐段匹配：NFKC、去独立页码、仅保留字母数字汉字、剔除彝文字形映射标点；不构成标点级一致性证明"
+  },
+  {
+    "id": "mot-2022-39",
+    "pdf": "raw/mot-2022-39-P020221125702669703403.pdf",
+    "pages": 9,
+    "paragraphs": 55,
+    "alphanumeric_normalized_covered": 54,
+    "unmatched_paragraphs": [
+      "部长李小鹏"
+    ],
+    "note": "逐段匹配：NFKC、去独立页码、仅保留字母数字汉字、剔除彝文字形映射标点；不构成标点级一致性证明"
+  },
+  {
+    "id": "mot-2023-5",
+    "pdf": "raw/mot-2023-5-P020230621340722656189.pdf",
+    "pages": 6,
+    "paragraphs": 56,
+    "alphanumeric_normalized_covered": 53,
+    "unmatched_paragraphs": [
+      "铁路运输服务质量监督管理办法已于2023年5月4日经第9次部务会议通过现予公布自2023年7月1日起施行",
+      "部长李小鹏",
+      "2023年5月8日"
+    ],
+    "note": "逐段匹配：NFKC、去独立页码、仅保留字母数字汉字、剔除彝文字形映射标点；不构成标点级一致性证明"
+  }
+]

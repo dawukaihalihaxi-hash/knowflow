@@ -1,0 +1,86 @@
+{
+  "builder_version": "structural-v1",
+  "manifest_sha256": "7ad4d52a9babbfe55935a80e6b4be766a5aa45ca204d60cdae34d2aa4aeaa2b8",
+  "config_sha256": "9ff92505778ac7551e1d0f8a31c7a5a302016a162c4119e6cce24fb14eecbcce",
+  "chunk_count": 234,
+  "documents": [
+    {
+      "document_id": "mot-2022-37",
+      "strategy": "articles",
+      "chunks": 62,
+      "articles": 52,
+      "source_paragraphs": 111,
+      "covered_once": true
+    },
+    {
+      "document_id": "nra-mps-2022-1",
+      "strategy": "catalog",
+      "chunks": 26,
+      "articles": 0,
+      "source_paragraphs": 58,
+      "covered_once": true
+    },
+    {
+      "document_id": "mot-2022-39",
+      "strategy": "articles",
+      "chunks": 40,
+      "articles": 32,
+      "source_paragraphs": 55,
+      "covered_once": true
+    },
+    {
+      "document_id": "mot-2023-21",
+      "strategy": "articles",
+      "chunks": 60,
+      "articles": 52,
+      "source_paragraphs": 93,
+      "covered_once": true
+    },
+    {
+      "document_id": "mot-2023-5",
+      "strategy": "articles",
+      "chunks": 38,
+      "articles": 37,
+      "source_paragraphs": 56,
+      "covered_once": true
+    },
+    {
+      "document_id": "moe-cr-2023-4",
+      "strategy": "sections",
+      "chunks": 7,
+      "articles": 0,
+      "source_paragraphs": 23,
+      "covered_once": true
+    },
+    {
+      "document_id": "cr-2025-student",
+      "strategy": "whole",
+      "chunks": 1,
+      "articles": 0,
+      "source_paragraphs": 9,
+      "covered_once": true
+    }
+  ],
+  "excluded_documents": [
+    "cr-2026-rules"
+  ],
+  "retrieval_candidate_count": 202,
+  "context_only_count": 32,
+  "kinds": {
+    "preamble": 6,
+    "chapter_context": 23,
+    "article": 173,
+    "section": 9,
+    "catalog_item": 22,
+    "document": 1
+  },
+  "oversized_chunks": [],
+  "chunks_sha256": "23c11e00993ae39fde5cee164a665a3ba805ba0a6c569d3cd705e9ae717f9619",
+  "embedding_created": false,
+  "notes": [
+    "Complete articles retained, no truncation or fixed-length overlap.",
+    "Character review threshold is not a tokenizer limit.",
+    "Source paragraph coverage excludes generated Markdown title/provenance only.",
+    "No tenant authorization or retrieval system implemented."
+  ]
+}

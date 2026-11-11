@@ -1,0 +1,15 @@
+{
+  "answer": [
+    {
+      "id": "qwen3.7-plus",
+      "label": "qwen3.7-plus"
+    }
+  ],
+  "embedding": [
+    {
+      "id": "text-embedding-v4",
+      "label": "text-embedding-v4",
+      "dimensions": 1024
+    }
+  ]
+}

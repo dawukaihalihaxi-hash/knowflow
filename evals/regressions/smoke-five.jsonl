@@ -1,0 +1,5 @@
+{"id":"FIVE-01","question":"6岁儿童需要购买车票吗？","expected":"answered","review":"给出有引用的条件式结论，不因缺少实名制/身高信息空泛拒答；不扩大免费儿童单独占席规则。"}
+{"id":"FIVE-02","question":"100Wh充电宝可以带上火车吗？","expected":"answered","review":"先给结论，保留标志清晰、单块额定能量等必要条件。"}
+{"id":"FIVE-03","question":"可以带两瓶100毫升的同一种香水吗？","expected":"answered","review":"区分含易燃成分等适用条件、单体容积及每种件数；不能只计算总体积。"}
+{"id":"FIVE-04","question":"2023与2025学生新生购票核验有何变化？","expected":"answered_or_conflict_with_comparison","review":"综合两份对应资料比较，不将历史公告当成当前办理承诺，不能空泛拒答。"}
+{"id":"FIVE-05","question":"明天北京到上海高铁最便宜多少钱、还有票吗？","expected":"insufficient","review":"明确不能提供实时票价余票，不编造。"}

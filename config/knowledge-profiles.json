@@ -1,0 +1,10 @@
+[
+  {
+    "id": "railway-2026-11-04",
+    "name": "铁路旅客服务 · 2026-11-04",
+    "knowledge_root": "knowledge/railway",
+    "chunks_path": "artifacts/railway-chunks/chunks.jsonl",
+    "chunk_report_path": "artifacts/railway-chunks/chunk-report.json",
+    "snapshot_date": "2026-11-04"
+  }
+]

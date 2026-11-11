@@ -1,0 +1,207 @@
+{
+  "answer": {
+    "api_key_env": "DASHSCOPE_API_KEY",
+    "base_url": "https://dashscope.aliyuncs.com/compatible-mode/v1",
+    "max_claims": 8,
+    "max_question_characters": 2000,
+    "messages": {
+      "conflict": "检索资料存在适用时间或规则层级差异，以下仅列出有依据的信息，不能据此确定当前办理结论。",
+      "insufficient": "当前知识资料不足以可靠回答这个问题。请补充必要信息，或通过铁路12306等官方渠道核实。",
+      "invalid_response": "本次回答未通过结构或引用校验，暂不展示结论。"
+    },
+    "minimum_quote_characters": 12,
+    "model": "qwen3.7-plus",
+    "parameters": {
+      "enable_thinking": true,
+      "max_tokens": 4096,
+      "response_format": {
+        "type": "json_object"
+      },
+      "temperature": 0.1,
+      "thinking_budget": 1024
+    },
+    "prompt_path": "prompts/versions/e70c0410b0b0ebc2e435bd0cb71eb70c33b7c1f0fca8c8fb93e63a1b64cff291.txt",
+    "timeout_seconds": 120
+  },
+  "chunk_report_path": "artifacts/railway-chunks/chunk-report.json",
+  "chunks_path": "artifacts/railway-chunks/chunks.jsonl",
+  "database": {
+    "batch_size": 25,
+    "local_read_fallback": false,
+    "service_key_env": "SUPABASE_SECRET_KEY",
+    "timeout_seconds": 60,
+    "url_env": "SUPABASE_URL"
+  },
+  "embedding": {
+    "api_key_env": "DASHSCOPE_API_KEY",
+    "base_url": "https://dashscope.aliyuncs.com/compatible-mode/v1",
+    "batch_size": 10,
+    "dimensions": 1024,
+    "model": "text-embedding-v4",
+    "timeout_seconds": 60
+  },
+  "onboarding": {
+    "generic_messages": {
+      "conflict": "提供的资料存在版本或适用范围差异，以下仅对照有依据的信息。",
+      "insufficient": "当前知识资料不足以可靠回答这个问题，请补充信息或联系相关业务人员核实。",
+      "invalid_response": "本次回答未通过引用校验，暂不展示结论。"
+    },
+    "generic_prompt_path": "prompts/generic-answer-v1.txt"
+  },
+  "retrieval": {
+    "context_top_k": 5,
+    "keyword_top_k": 10,
+    "max_context_characters": 8000,
+    "minimum_cosine_similarity": 0,
+    "query_rules": [
+      {
+        "exclude_terms": [
+          "充电宝",
+          "电池",
+          "香水",
+          "发胶",
+          "花露水",
+          "酒",
+          "刀",
+          "枪",
+          "烟花",
+          "打火机",
+          "火柴",
+          "喷雾",
+          "指甲油",
+          "液体",
+          "处罚",
+          "处理",
+          "罚款",
+          "没收",
+          "保管"
+        ],
+        "expansions": [
+          "禁止托运和随身携带的物品",
+          "禁止随身携带但可以托运的物品",
+          "限制随身携带的物品"
+        ],
+        "groups": [
+          {
+            "document_id": "nra-mps-2022-1",
+            "locator_prefix": "一、禁止托运和随身携带的物品"
+          },
+          {
+            "document_id": "nra-mps-2022-1",
+            "locator_prefix": "二、禁止随身携带但可以托运的物品"
+          },
+          {
+            "document_id": "nra-mps-2022-1",
+            "locator_prefix": "三、限制随身携带的物品"
+          }
+        ],
+        "id": "carry-catalog-overview",
+        "overview_markers": [
+          "哪些",
+          "什么",
+          "有啥",
+          "清单",
+          "列举",
+          "列出",
+          "介绍",
+          "要求",
+          "规定"
+        ],
+        "triggers": [
+          "违禁品",
+          "违禁物品",
+          "禁带物品",
+          "禁止携带",
+          "禁止带",
+          "不能带",
+          "不让带",
+          "携带物品",
+          "携带要求"
+        ]
+      },
+      {
+        "exclude_terms": [
+          "充电宝",
+          "香水",
+          "电池",
+          "发胶",
+          "酒",
+          "打火机",
+          "指甲油",
+          "处罚",
+          "处理"
+        ],
+        "expansions": [
+          "限制随身携带的物品"
+        ],
+        "groups": [
+          {
+            "document_id": "nra-mps-2022-1",
+            "locator_prefix": "三、限制随身携带的物品"
+          }
+        ],
+        "id": "limited-carry-overview",
+        "overview_markers": [
+          "哪些",
+          "什么",
+          "有啥",
+          "清单",
+          "列出",
+          "要求",
+          "规定"
+        ],
+        "triggers": [
+          "限制随身携带",
+          "限制携带",
+          "限带物品"
+        ]
+      }
+    ],
+    "rerank_candidate_limit": 10,
+    "rerank_enabled": false,
+    "rrf_constant": 60,
+    "source_groups": [
+      {
+        "document_ids": [
+          "cr-2025-student",
+          "moe-cr-2023-4"
+        ],
+        "triggers": [
+          "学生",
+          "新生",
+          "学生证"
+        ]
+      }
+    ],
+    "trace_enabled": false,
+    "trace_retention_count": 20,
+    "vector_top_k": 10
+  },
+  "tenant_id": "railway-demo",
+  "vector_cache_path": "local-data/indexes/dd9c3f4ae8126bd2621ff101b2c91a4f73836093ea8de3226f4f7048ed0062a5.json",
+  "web": {
+    "accent": "#1d3cd7",
+    "assistant_name": "出行通",
+    "company_name": "铁路旅客服务",
+    "description": "有依据的解答，让每一次出行更从容。",
+    "examples": [
+      "100Wh充电宝可以带上火车吗？",
+      "6岁儿童需要购买车票吗？",
+      "2023与2025学生新生购票核验有何变化？"
+    ],
+    "knowledge_profile": "railway-2026-11-04",
+    "logo_asset": "/static/brand/assistant-logo.png",
+    "logo_version": "a7fc3bbf430623b4bc9c8ad4a0aecefa25caac389eb694d6f4b814d596744851",
+    "public_slug": "chuxingtong",
+    "request_limit_per_minute": 12,
+    "theme": "clean",
+    "welcome_subtitle": "关于铁路出行，有什么可以帮你？",
+    "welcome_title": "你好，我是出行通"
+  },
+  "business": {
+    "scope": "围绕本助手已审核的知识资料提供说明，不超出资料能够支持的业务范围。",
+    "audience": "需要查询本业务知识的用户。",
+    "tone": "使用清楚、简洁的中文，先给结论，再说明条件与依据。",
+    "handoff": "资料不足、存在冲突或涉及人工审批时，明确说明限制，并建议联系业务负责人。"
+  }
+}

@@ -1,0 +1,30 @@
+# Free portfolio demo. Secrets are configured only in Render, never in Git.
+services:
+  - type: web
+    name: knowflow-kparis
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn --workers 1 --threads 4 --timeout 240 --bind 0.0.0.0:$PORT app:app
+    healthCheckPath: /healthz
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: APP_PUBLIC_DEMO
+        value: "1"
+      - key: APP_CONFIG
+        value: config/rag.railway.json
+      - key: PYTHON_VERSION
+        value: "3.13.8"
+      - key: APP_ADMIN_PASSWORD
+        generateValue: true
+      - key: APP_USER_PASSWORD
+        generateValue: true
+      - key: APP_SESSION_SECRET
+        generateValue: true
+      - key: DASHSCOPE_API_KEY
+        sync: false
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SECRET_KEY
+        sync: false

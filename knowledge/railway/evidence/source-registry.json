@@ -1,0 +1,38 @@
+[
+  {
+    "path": "evidence/validity-current.html",
+    "url": "https://source.nra.gov.cn/jglz/fgzd/bmgz/",
+    "sha256": "516d26d0c0a95c8a6aa589996632f986c4104341130f023ece7a74ab88afb32c",
+    "bytes": 41249
+  },
+  {
+    "path": "evidence/validity-page2.html",
+    "url": "https://source.nra.gov.cn/jglz/fgzd/bmgz/index_1.shtml",
+    "sha256": "dd08d9cc0b7a776112a2ea72d4612800702d8140eb9032a2413169457de31c6c",
+    "bytes": 41404
+  },
+  {
+    "path": "evidence/2026-news.html",
+    "url": "https://www.rails.cn/html/news/12/2026/20260601_68794.html",
+    "sha256": "dc901eba2d243fe6c4eb62470cfb18837cffe1e931bca5295fd06dca1fcd24b7",
+    "bytes": 20053
+  },
+  {
+    "path": "evidence/2026-desktop.html",
+    "url": "https://kyfw.12306.cn/otn/gonggao/saleTicketMeans.html",
+    "sha256": "37976b5d9a2e457b72ba8b83e20d9495229829dfcfd6a9a3626627b5238a45c6",
+    "bytes": 125808
+  },
+  {
+    "path": "evidence/nra-mps-2022-1-pdf.pdf",
+    "url": "https://source.nra.gov.cn/xxgk/gkml/ztjg/gfzd/gfxw/202205/P020220527503609187824.pdf",
+    "sha256": "61106f0e01dd679f0531ff370970ced304b70f0302f24502bd56b1fd1883f8fd",
+    "bytes": 1073940
+  },
+  {
+    "path": "evidence/mot-2023-21-pdf.pdf",
+    "url": "https://xxgk.mot.gov.cn/2020/jigou/fgs/202401/P020240104346779505397.pdf",
+    "sha256": "9f72c7d659c17314be29dae08a18ff73d3fe6d6b10ad66e0370fb5357b39681d",
+    "bytes": 218033
+  }
+]

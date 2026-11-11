@@ -1,0 +1,19 @@
+{
+  "knowledge_root": "knowledge/railway",
+  "manifest": "manifest.json",
+  "output_dir": "artifacts/railway-chunks",
+  "default_strategy": "articles",
+  "chunking": {
+    "review_above_characters": 1200
+  },
+  "document_strategies": {
+    "nra-mps-2022-1": "catalog",
+    "moe-cr-2023-4": "sections",
+    "cr-2025-student": "whole"
+  },
+  "document_usage_notes": {
+    "moe-cr-2023-4": "历史通知；当前操作须同时核对后续公告，不单独视作现行办理依据。",
+    "cr-2025-student": "官方措施发布公告；预计发售日期不是已核实生效日期。",
+    "mot-2022-37": "部门规章原文；学生席别等问题须区分后续企业公告，不自动判定优先关系。"
+  }
+}

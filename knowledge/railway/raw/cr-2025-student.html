@@ -1,0 +1,1350 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>中国铁路12306网站</title>
+<link href="global_1.css" rel="stylesheet">
+<link href="../../images/public_2.css" rel="stylesheet">
+
+<link href="iconfont_1.css" rel="stylesheet">
+<script language="JavaScript" type="text/javascript" src="/mormhweb/images/jquery.min.js"></script>
+<script language="JavaScript" type="text/javascript" src="/mormhweb/images/jquery.flash.js"></script>
+
+</head>
+<body>
+<link href="../../images/iconfont.css" rel="stylesheet">
+<link href="https://www.12306.cn/index/css/index_y_v50001.css" rel="stylesheet">
+
+<!-- 头部 -->
+<div class="header-wrap">
+<div class="header">
+    <div class="wrapper">
+        <!-- 头部内容 -->
+        <div class="header-con">
+            <h1 class="logo">
+                <a name="g_href" data-type="1" data-href="index.html" data-redirect="Y" href="javascript:;">中国铁路12306</a>
+            </h1>
+            <div class="header-right">
+                <!-- 搜索条 -->
+                <div class="header-search" style="width: 380px">
+                    <div class="search-bd" style="width: 350px">
+                        <input type="password" value="" style="display:none" />
+                        <input type="text" class="search-input" id="search-input" value="" placeholder="搜索车票/餐饮/常旅客/相关规章" auto-complete="new-password" />
+                        <!-- 搜索提示 -->
+                        <div class="search-down">
+                            <a href="javascript:;" class="close">关闭</a>
+                            <ul class="search-down-list"></ul>
+                        </div>
+                        <!-- 搜索历史 -->
+                        <div class="search-history">
+                            <a href="javascript:;" class="history-clear">清除</a>
+                            <h3 class="search-history-tit">搜索历史</h3>
+                            <ul class="search-history-list">
+
+                            </ul>
+                        </div>
+                    </div>
+                    <a class="search-btn" href="javascript:;">
+                        <i class="icon icon-search"></i>
+                    </a>
+                </div>
+                <!-- 右侧菜单 -->
+                <ul class="header-menu">
+                    <li class="menu-item"><a id="toolbarSwitch" href="javascript:;" class="menu-nav-hd">无障碍</a></li>
+          <li class="menu-item menu-line">|</li>
+          <li class="menu-item"><a id="caring_a" href="javascript:;" onclick="$.changebigslh();" class="menu-nav-hd">爱心版</a></li>
+          <li class="menu-item menu-line">|</li>
+          <li class="menu-item menu-nav" role="menuitem">
+            <a href="https://www.12306.cn/en/index.html" class="menu-nav-hd"
+               aria-controls="megamenu-1"
+               aria-expanded="false"
+               aria-haspopup="true">English
+              <i class="caret"></i>
+            </a>
+            <ul class="menu-nav-bd"
+                role="menu"
+                aria-hidden="true"
+                id="megamenu-1" style="width: 90px;">
+              <li>
+                <a href="https://www.12306.cn/index/index.html">简体中文</a>
+              </li>
+              <li>
+                <a href="https://www.12306.cn/en/index.html">English</a>
+              </li>
+            </ul>
+          </li>
+          <li class="menu-item menu-line">|</li>
+                    <li class="menu-item menu-nav">
+                        <a name="g_href" data-type="2" data-href="view/index.html" data-redirect="Y" href="javascript:;" class="menu-nav-hd">我的12306
+                            <i class="caret"></i>
+                        </a>
+                        <ul class="menu-nav-bd">
+                            <li>
+                                <a name="g_href" data-type="2" data-href="view/train_order.html" data-redirect="Y" href="javascript:;">火车票订单</a>
+                            </li>
+                            <!-- <li>
+                                <a name="g_href" data-type="2" data-href="view/personal_travel.html" data-redirect="Y"
+                                    href="javascript:;">我的行程</a>
+                            </li> -->
+                            <li class="nav-line"></li>
+                            <li>
+                                <a name="g_href" data-type="10" data-href="queryMyOrder.html" data-redirect="Y" href="javascript:;">我的餐饮?特产</a>
+                            </li>
+                            <li>
+                                <a name="g_href" data-type="2" data-href="view/my_insurance.html" data-redirect="Y"
+                                    href="javascript:;">我的保险</a>
+                            </li>
+                            <li>
+                                <a name="g_href" data-type="3" data-href="welcome.html" data-redirect="Y" href="javascript:;">我的会员</a>
+                            </li>
+                            <li class="nav-line"></li>
+                            <li>
+                                <a name="g_href" data-type="2" data-href="view/information.html" data-redirect="Y" href="javascript:;">查看个人信息</a>
+                            </li>
+                            <li>
+                                <a name="g_href" data-type="2" data-href="view/userSecurity.html" data-redirect="Y"
+                                    href="javascript:;">账户安全</a>
+                            </li>
+                            <li class="nav-line"></li>
+                            <li>
+                                <a name="g_href" data-type="2" data-href="view/passengers.html" data-redirect="Y" href="javascript:;">常用联系人</a>
+                            </li>
+                            <li>
+                                <a name="g_href" data-type="2" data-href="view/address_init.html" data-redirect="Y"
+                                    href="javascript:;">车票快递地址</a>
+                            </li>
+                            <li class="nav-line"></li>
+                            <li>
+                                <a name="g_href" data-type="2" data-href="view/icentre_serviceQuery.html" data-redirect="Y"
+                                    href="javascript:;">温馨服务查询</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="menu-item menu-line">|</li>
+                    <li id="J-header-login" class="menu-item menu-login">
+                        <a name="g_href" data-type="2" data-href="resources/login.html" data-redirect="Y" href="javascript:;">登录</a><a
+                            name="g_href" data-type="2" data-href="regist/init" data-redirect="Y" href="javascript:;"
+                            class="ml">注册</a>
+                    </li>
+                    <li id="J-header-logout" style="display: none;" class="menu-item menu-nav menu-login">
+                        您好，<a name="g_href" data-type="2" data-href="view/index.html" data-redirect="Y" href="javascript:;" class="txt-primary menu-nav-my-hd"></a><!-- &nbsp;|&nbsp;<a class="logout" href="javascript:;">退出</a> -->
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- 导航 -->
+    <div class="nav-box">
+        <ul class="nav">
+            <li id="J-index" class="nav-item nav-item-w1">
+                <a name="g_href" data-type="1" data-href="index.html" data-redirect="Y" href="javascript:;" class="nav-hd">首页</a>
+            </li>
+            <li id="J-chepiao" class="nav-item nav-item-w1">
+                <a href="javascript:void(0)" class="nav-hd">车票
+                    <i class="icon icon-down"></i>
+                </a>
+                <div class="nav-bd">
+                    <div class="nav-bd-item nav-col2">
+                        <h3 class="nav-tit">购买</h3>
+                        <ul class="nav-con">
+                            <li class="nav_dan">
+                                <a name="g_href" data-type="2" data-href="leftTicket/init?linktypeid=dc" data-redirect="Y"
+                                    href="javascript:;">单程</a>
+                            </li>
+                            <li class="nav_wang">
+                                <a name="g_href" data-type="2" data-href="leftTicket/init?linktypeid=wf" data-redirect="Y"
+                                    href="javascript:;">往返</a>
+                            </li>
+                            <li>
+                                <a name="g_href" data-type="2" data-href="lcQuery/init" data-redirect="Y" href="javascript:;">中转换乘</a>
+                            </li>
+                            <li></li>
+                        </ul>
+                    </div>
+                    <div class="nav-bd-item nav-col2">
+                        <h3 class="nav-tit">变更</h3>
+                        <ul class="nav-con">
+                            <li class="nav_ref">
+                                <a name="g_href" data-type="2" data-href="view/train_order.html?type=2&typefilt=4"
+                                    data-redirect="Y" href="javascript:;">退票</a>
+                            </li>
+                            <li class="nav_res">
+                                <a name="g_href" data-type="2" data-href="view/train_order.html?type=2&typefilt=2"
+                                    data-redirect="Y" href="javascript:;">改签</a>
+                            </li>
+                            <li class="nav_chg">
+                                <a name="g_href" data-type="2" data-href="view/train_order.html?type=2&typefilt=3"
+                                    data-redirect="Y" href="javascript:;">变更到站</a>
+                            </li>
+                            <li></li>
+                        </ul>
+                    </div>
+                    <div class="nav-bd-item nav-col2">
+                        <h3 class="nav-tit border-none">更多</h3>
+                        <ul class="nav-con">
+                            <li>
+                                <a name="g_href" data-type="1" data-href="view/ticket/zt_card.html" data-redirect="Y"
+                                    href="javascript:;">中铁银通卡</a>
+                            </li>
+                            <li class="border-none">
+                                <a name="g_href" data-type="1" data-href="view/ticket/through_train.html" data-redirect="Y"
+                                    href="javascript:;">广九直通车</a>
+                            </li>
+                            <li>
+                                <a name="g_href" data-type="1" data-href="view/ticket/railway.html" data-redirect="Y"
+                                    href="javascript:;">市郊快速铁路</a>
+                            </li>
+                            <li>
+                                <a name="g_href" data-type="1" data-href="view/ticket/international_train.html"
+                                    data-redirect="Y" href="javascript:;">国际列车</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </li>
+            <li id="J-tuangoufuwu" class="nav-item ">
+                <a href="javascript:void(0) " class="nav-hd ">团购服务
+                    <i class="icon icon-down "></i>
+                </a>
+                <div class="nav-bd ">
+                    <div class="nav-bd-item nav-col6 ">
+                        <ul class="nav-con ">
+                            <li>
+                                <a name="g_href" data-type="1" data-href="view/group/group_management.html?type=1" data-redirect="Y"
+                                    href="javascript:;">务工人员</a>
+                            </li>
+
+                            <li>
+                                <a name="g_href" data-type="1" data-href="view/group/group_management.html?type=2"
+                                    data-redirect="Y" href="javascript:;">学生团体</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </li>
+            <li id="J-huiyuanfuwu" class="nav-item ">
+                <a href="javascript:void(0) " class="nav-hd ">会员服务
+                    <i class="icon icon-down "></i>
+                </a>
+                <div class="nav-bd ">
+                    <div class="nav-bd-item nav-col6">
+                        <ul class="nav-con ">
+                            <li>
+                                <a name="g_href" data-type="3" data-href="index.html" data-redirect="Y" href="javascript:;">会员管理</a>
+                            </li>
+                            <li>
+                                <a name="g_href" data-type="3" data-href="index.html" data-redirect="Y" href="javascript:;">积分账户</a>
+                            </li>
+                            <li>
+                                <a name="g_href" data-type="3" data-href="index.html" data-redirect="Y" href="javascript:;">积分兑换</a>
+                            </li>
+                            <li>
+                                <a name="g_href" data-type="3" data-href="index.html" data-redirect="Y" href="javascript:;">会员专享</a>
+                            </li>
+                            <li class="border-none ">
+                                <a name="g_href" data-type="3" data-href="welcome.html" data-redirect="Y" href="javascript:;">会员中心</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </li>
+            <li id="J-zhanchefuwu" class="nav-item ">
+                <a href="javascript:void(0) " class="nav-hd ">站车服务
+                    <i class="icon icon-down "></i>
+                </a>
+                <div class="nav-bd ">
+                    <div class="nav-bd-item nav-col4 ">
+                        <ul class="nav-con ">
+                            <li>
+                                <a name="g_href" data-type="2" data-href="view/icentre_qxyyInfo.html" data-redirect="Y" href="javascript:;">重点旅客预约</a>
+                            </li>
+                            <li>
+                                <a name="g_href" data-type="1" data-href="view/station/hand.html" data-redirect="Y"
+                                    href="javascript:;">便民托运</a>
+                            </li>
+                            <li>
+                            	<a name="g_href" data-type="1" data-href="view/station/shared_Car.html" data-redirect="Y"
+                                    href="javascript:;">共享汽车</a>
+                            </li>
+                            <li>
+                                <a name="g_href" data-type="4" data-href="czyd_2143/" data-redirect="Y" href="javascript:;">车站引导</a>
+                            </li>
+                            <li>
+                                <a name="g_href" data-type="2" data-href="view/icentre_lostInfo.html" data-redirect="Y" href="javascript:;">遗失物品查找</a>
+                            </li>
+                            <li>
+                                <a name="g_href" data-type="1" data-href="view/station/train_intro.html" data-redirect="Y"
+                                    href="javascript:;">动车组介绍</a>
+                            </li>
+                            <li>
+                            	<a name="g_href" data-type="1" data-href="view/station/custom_PickUp.html"
+                                    data-redirect="Y" href="javascript:;">定制接送</a>
+                            </li>
+                            <li>
+                                <a name="g_href" data-type="4" data-href="zcfc_2548/" data-redirect="Y" href="javascript:;">站车风采</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- <div class="nav-bd-item ">
+                        <ul class="nav-con ">
+                            <li>
+                                <a name="g_href" data-type="4" data-href="czyd_2143/" data-redirect="Y" href="javascript:;">车站引导</a>
+                            </li>
+                            <li>
+                                <a name="g_href" data-type="4" data-href="zcfc_2548/" data-redirect="Y" href="javascript:;">站车风采</a>
+                            </li>
+                        </ul>
+                    </div> -->
+                </div>
+            </li>
+            <li id="J-shanlvfuwu" class="nav-item ">
+                <a href="javascript:void(0) " class="nav-hd ">商旅服务
+                    <i class="icon icon-down "></i>
+                </a>
+                <div class="nav-bd ">
+                    <div class="nav-bd-item nav-col6 ">
+                        <ul class="nav-con ">
+                            <li>
+                                <a name="g_href" data-type="10" data-href="index.html" data-redirect="Y" href="javascript:;">餐饮?特产</a>
+                            </li>
+                            <li>
+                                <a name="g_href" data-type="2" data-href="view/my_insurance.html" data-redirect="Y" href="javascript:;">保险</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </li>
+            <li id="J-chuxingzhinan" class="nav-item ">
+                <a href="javascript:void(0) " class="nav-hd ">出行指南
+                    <i class="icon icon-down "></i>
+                </a>
+                <div class="nav-bd ">
+                    <div class="nav-bd-item nav-col2 ">
+                        <h3 class="nav-tit ">常见问题</h3>
+                        <ul class="nav-con ">
+                            <li>
+                                <a name="g_href" data-type="2" data-href="gonggao/ticketType.html" data-redirect="Y"
+                                    href="javascript:;">车票</a>
+                            </li>
+                            <li>
+                                <a name="g_href" data-type="2" data-href="gonggao/ticketWindow.html" data-redirect="Y"
+                                    href="javascript:;">购票</a>
+                            </li>
+                            <li>
+                                <a name="g_href" data-type="2" data-href="gonggao/windowEndorse.html" data-redirect="Y"
+                                    href="javascript:;">改签</a>
+                            </li>
+                            <li>
+                                <a name="g_href" data-type="2" data-href="gonggao/windowRefund.html" data-redirect="Y"
+                                    href="javascript:;">退票</a>
+                            </li>
+                            <li>
+                                <a name="g_href" data-type="2" data-href="gonggao/help.html" data-redirect="Y" href="javascript:;"
+                                    class="txt-lighter">更多>></a>
+                            </li>
+                            <li></li>
+                        </ul>
+                    </div>
+                    <div class="nav-bd-item nav-col2 ">
+                        <h3 class="nav-tit ">旅客须知</h3>
+                        <ul class="nav-con ">
+                            <li>
+                                <a name="g_href" data-type="2" data-href="gonggao/usersNeedToKnow.html?linktypeid=txt"
+                                    data-redirect="Y" href="javascript:;">铁路电子客票</a>
+                            </li>
+                            <li>
+                                <a name="g_href" data-type="2" data-href="gonggao/saleTicketMeans.html?linktypeid=means5"
+                                    data-redirect="Y" href="javascript:;">身份核验</a>
+                            </li>
+                            <li>
+                                <a name="g_href" data-type="2" data-href="gonggao/help.html" data-redirect="Y" href="javascript:;"
+                                    class="txt-lighter">更多>></a>
+                            </li>
+                            <li></li>
+                        </ul>
+                    </div>
+                    <div class="nav-bd-item nav-col2 ">
+                        <h3 class="nav-tit border-none ">相关章程</h3>
+                        <ul class="nav-con ">
+                            <li>
+                                <a name="g_href" data-type="2" data-href="gonggao/saleTicketMeans.html?linktypeid=means2"
+                                    data-redirect="Y" href="javascript:;">铁路旅客运输规程</a>
+                            </li>
+                            <li class="border-none">
+                                <a name="g_href" data-type="2" data-href="gonggao/saleTicketMeans.html?linktypeid=means7"
+                                    data-redirect="Y" href="javascript:;">广深港高速铁路跨境旅客运输组织规则</a>
+                            </li>
+                            <li style="text-overflow:ellipsis;white-space:nowrap;">
+                                <a name="g_href" data-type="2" data-href="gonggao/saleTicketMeans.html?linktypeid=means6"
+                                    data-redirect="Y" href="javascript:;">铁路进站乘车禁止和限制携带品公告</a>
+                            </li>
+                            <li>
+                                <a name="g_href" data-type="2" data-href="gonggao/help.html" data-redirect="Y" href="javascript:;"
+                                    class="txt-lighter">更多>></a>
+                            </li>
+                            <li></li>
+                        </ul>
+                    </div>
+                </div>
+            </li>
+            <li id="J-xinxichaxun" class="nav-item last ">
+                <a href="javascript:void(0) " class="nav-hd ">信息查询
+                    <i class="icon icon-down "></i>
+                </a>
+                <div class="nav-bd ">
+                    <div class="nav-bd-item nav-col5 ">
+                        <h3 class="nav-tit border-none ">常用查询</h3>
+                        <ul class="nav-con ">
+                            <li>
+                                <a name="g_href" data-type="2" data-href="zwdch/init" data-redirect="Y" href="javascript:;">正晚点</a>
+                            </li>
+                            <li>
+                                <a name="g_href" data-type="2" data-href="queryTrainInfo/init" data-redirect="Y" href="javascript:;">时刻表</a>
+                            </li>
+                            <li>
+                                <a name="g_href" data-type="2" data-href="leftTicketPrice/initPublicPrice"
+                                    data-redirect="Y" href="javascript:;">公布票价</a>
+                            </li>
+                            <li>
+                                <a name="g_href" data-type="1" data-href="view/infos/ticket_check.html" data-redirect="Y"
+                                    href="javascript:;">检票口</a>
+                            </li>
+                            <li>
+                                <a name="g_href" data-type="1" data-href="view/infos/sale_time.html" data-redirect="Y"
+                                    href="javascript:;">起售时间</a>
+                            </li>
+                            <li>
+                                <a name="g_href" data-href="https://forecast.lytq.com/pc.html" data-redirect="N"
+                                    data-target="_blank" href="javascript:;">天气</a>
+                            </li>
+                            <li>
+                                <a name="g_href" data-type="1" data-href="view/infos/jiaotong.html" data-redirect="Y"
+                                    href="javascript:;">交通查询</a>
+                            </li>
+                            <li>
+                                <a name="g_href" data-type="2" data-href="queryAgencySellTicket/init" data-redirect="Y"
+                                    href="javascript:;">代售点</a>
+                            </li>
+                            <li>
+                                <a name="g_href" data-type="1" data-href="view/infos/service_number.html" data-redirect="Y"
+                                    href="javascript:;">客服电话</a>
+                            </li>
+                            <li></li>
+                        </ul>
+                    </div>
+                    <div class="nav-bd-item ">
+                        <ul class="nav-con nav-con-pt ">
+                            <li class="border-none">
+                                <a id="gLink" href="javascript:void(0)">最新发布</a>
+                            </li>
+                            <li class="border-none">
+                                <a name="g_href" data-type="6" data-href="queryDishonest/init" data-redirect="Y" href="javascript:;">信用信息</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+</div>
+<style>
+/*盒模型*/
+*, *:before, *:after {
+
+  box-sizing: inherit;
+}
+.subColumn {font-weight:800;}
+
+</style>
+<!-- 内容区域 -->
+<div class="wrapper content">
+  <!-- 面包屑 -->
+  <div class="breadcrumb">
+    当前位置：<a href="https://www.12306.cn/index/">首页</a>><a href="">最新动态</a>  </div>
+  <!-- 内容区 -->
+  <div class="main-panel">
+    
+    <div class="panel-bd">
+      <!-- 文章 -->
+      <div class="article-box">
+        <h3 class="title">铁路部门进一步优化学生旅客购票出行优惠措施  </h3>
+        <!-- 文章内容 -->
+        <div class="cont">
+<div class=TRS_Editor><p align="justify">　　<span>铁路部门积极顺应学生旅客多样化的出行需求，继<span lang="EN-US">8</span>月<span lang="EN-US">1</span>日起全面实行学生旅客预约购票服务之后，<strong><span>进一步优化学生旅客购票出行优惠措施</span></strong>，学生旅客每学年（<span lang="EN-US">10</span>月<span lang="EN-US">1</span>日至次年<span lang="EN-US">9</span>月<span lang="EN-US">30</span>日）<span lang="EN-US">4</span>次单程优惠票可随时使用，优惠区间可根据家庭居住地至学校所在地调整设置，动车组列车学生优惠票适用范围扩大至二等座、一等座和卧铺各席别，票价调整为按执行票价<span lang="EN-US">7.5</span>折计算，学生旅客购票出行将更加灵活方便，得到更多实惠。目前，铁路<span lang="EN-US">12306</span>科创中心正在组织系统优化测试，<strong><span>相关优惠车票预计将于<span lang="EN-US">9</span>月<span lang="EN-US">6</span>日开始发售</span></strong>。</span>&nbsp;</p>
+<p align="justify">　　<strong><span>一是学生优惠票可在每学年内随时使用。</span></strong><span>学生优惠票使用不再限于寒暑假期，可在每学年内随时使用。学生优惠票办理退票后将返还优惠次数。</span>&nbsp;</p>
+<p align="justify">　　<strong><span>二是优惠区间可根据家庭居住地至学校所在地调整设置。</span></strong><span>学生优惠票原适用区间为“家庭居住地至院校所在地”，优化调整后，院校所在地须与学信网信息一致，家庭居住地可根据实际变动情况设置，修改次数不限，学生旅客可灵活安排行程。</span>&nbsp;</p>
+<p align="justify">　　<strong><span>三是动车组列车学生优惠票适用范围扩大。</span></strong><span>动车组列车学生优惠票适用的席别范围由“仅限二等座”调整为“包括二等座、一等座和动车组卧铺各席别”，学生旅客将有更多的席别选择。普速旅客列车学生优惠票适用范围不变，仍为硬座、硬卧。</span>&nbsp;</p>
+<p align="justify">　　<strong><span>四是动车组列车学生优惠票按执行票价打折优惠。</span></strong><span>动车组列车学生优惠票计价规则由“公布票价的<span lang="EN-US">7.5</span>折”调整为“执行票价的<span lang="EN-US">7.5</span>折”，相当于“折上折”，最低折扣为公布票价<span lang="EN-US">4</span>折，如某趟车次二等座的执行票价为公布票价的<span lang="EN-US">8</span>折，学生优惠票将再打<span lang="EN-US">7.5</span>折，相当于公布票价的<span lang="EN-US">6</span>折，学生旅客将享受到更多优惠。普速旅客列车票价实行政府定价，学生优惠票价按现行政策规定执行、保持不变，硬座按票价的<span lang="EN-US">5</span>折计算，硬卧加收硬卧与硬座的全价差额。</span>&nbsp;</p>
+<p align="justify">　　<strong><span>五是查验规则进一步优化。</span></strong><span>在校学生已通过优惠资质核验的，出行时铁路部门将不再查验学生证；未通过优惠资质核验的，仍需携带学生证乘车，铁路部门将依规查验学生证。入学新生可凭录取通知书线上、线下购买学生优惠票出行。</span>&nbsp;</p>
+<p align="justify">　　<span>对学生购买火车票进一步优惠让利，是国铁企业积极顺应学生多样化的出行需求、关心关爱学生群体的重要举措，有利于学生享受更多票价优惠，方便就学、与家人团聚，拥有更好的出行体验。</span>&nbsp;</p>
+<p align="justify">　　<span>近年来，铁路部门坚持以人民为中心的发展思想，推出了一系列保障学生群体出行的新服务新举措，优化学生优惠资质核验方式，提供线上、线下多渠道学生身份核验；实行学生预约购票服务，票额优先向学生群体倾斜；开行点对点“学生专列”，安排专人引导，便利学生旅客出行。</span>&nbsp;</p>
+<p align="justify"><strong><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 相关优惠车票预计将于<span lang="EN-US">9</span>月<span lang="EN-US">6</span>日开始发售</span></strong><span>，请学生旅客通过铁路<span lang="EN-US">12306</span>网站、客户端、微信等渠道查询，或关注各地铁路部门发布的动态信息。</span>&nbsp;</p></div>  
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- 底部 -->
+<div class="footer">
+<div class="footer-con wrapper">
+    <div class="foot-links" style="margin-right:20px;">
+        <h2 class="foot-con-tit">友情链接</h2>
+        <ul class="foot-links-list">
+            <li>
+                <a name="g_href" data-href="http://www.china-railway.com.cn/" data-redirect="N" href="javascript:;" data-target="_blank">
+                    <img src="https://www.12306.cn/index/images/link05.png" />
+                </a>
+            </li>
+            <li>
+                <a name="g_href" data-href="http://www.china-ric.com/" data-redirect="N" href="javascript:;" data-target="_blank">
+                    <img src="http://www.12306.cn/mormhweb/images/link02.png" />
+                </a>
+            </li>
+            <li>
+                <a name="g_href" data-href="http://www.95306.cn/" data-redirect="N" href="javascript:;" data-target="_blank">
+                    <img src="https://www.12306.cn/index/images/link03.png" />
+                </a>
+            </li>
+            <li>
+                <a name="g_href" data-href="http://www.95572.com/" data-redirect="N" href="javascript:;" data-target="_blank">
+                    <img src="http://www.12306.cn/mormhweb/images/link04.png" />
+                </a>
+            </li>
+        </ul>
+    </div>
+    <ul class="foot-code">
+		<li style="width: 140px;">
+			<h2 class="foot-con-tit">中国铁路官方微信</h2>
+			<div class="code-pic">
+				<img src="https://www.12306.cn/mormhweb/images/zgtlwb.png" />
+			</div>
+		</li>
+		<li style="width: 140px;">
+			<h2 class="foot-con-tit">中国铁路官方微博</h2>
+			<div class="code-pic">
+				<img src="https://www.12306.cn/mormhweb/images/zgtlwx.png" />
+			</div>
+		</li>
+		<li style="width: 110px;">
+            <h2 class="foot-con-tit">12306 公众号</h2>
+            <div class="code-pic">
+                <img src="http://www.12306.cn/mormhweb/images/public.png" />
+            </div>
+        </li>
+        <li style="width: 110px;">
+            <h2 class="foot-con-tit">铁路12306</h2>
+            <div class="code-pic">
+                <img src="http://www.12306.cn/mormhweb/images/download.png" />
+                <div class="code-tips">官方APP下载，目前铁路未授权其他网站或APP开展类似服务内容，敬请广大用户注意。</div>
+            </div>
+        </li>
+    </ul>
+</div>
+<div class="footer-txt" style="position: relative;">
+    <p>
+      <span class="mr">版权所有？2008-2025</span>
+      <span>中国铁道科学研究院集团有限公司</span>
+      <span>技术支持：铁旅科技有限公司</span>
+    </p>
+    <p>
+      <span class="mr">
+        <img src="https://www.12306.cn/index/images/gongan.png" alt="公安" style="width: 13px" />
+        <a
+          target="blank"
+          href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010802038392"
+          style="color: #c1c1c1"
+          >京公网安备 11010802038392号</a
+        >
+      </span>
+      <span class="mr">|</span>
+      <span class="mr">京ICP备05020493号-4</span>
+      <span class="mr">|</span>
+      <span>ICP证：京B2-20202537</span>
+    </p>
+    <div style="position: absolute;top: 17px;left: 50%;margin-left: 465px;">
+       <img src="https://www.12306.cn/index/images/footer-slh.jpg" style="display: block;width: 130px;height: 46px;" alt="适老化无障碍服务" />
+    </div>
+    <script type="text/javascript" src="https://kyfw.12306.cn/otn/resources/route/www.12306.cn/route.js"></script>
+</div>
+</div>
+
+
+<script>
+
+$('#J-zhanchefuwu').addClass('active');
+
+var common_search_cookieArray = [];
+var common_search_arrayHistory = [];
+var common_search_searchhistory;
+var common_search_recordCookie;
+var common_search_flag = true;
+var common_search_noresults;
+var common_search_beforeValue = [];
+var common_search_firstData;
+var common_search_pageIndex = 0;
+var common_search_last;
+var common_search_searchInput;
+var common_search_untilArray;
+var common_search_firstArray;
+var common_search_localLength;
+
+
+
+// data-type="1"
+var href_baseUrl_1 = 'https://www.12306.cn/';
+var href_path_1 = 'index/';
+
+// data-type="2"
+var href_baseUrl_2 = 'https://kyfw.12306.cn/';
+var href_path_2 = 'otn/';
+
+// data-type="3"
+var href_baseUrl_3 = 'https://cx.12306.cn/';
+var href_path_3 = 'tlcx/';
+
+// data-type="4"
+var href_baseUrl_4 = 'https://www.12306.cn/';
+var href_path_4 = 'mormhweb/';
+
+// data-type="5"
+var href_baseUrl_5 = 'https://travel.12306.cn/';
+var href_path_5 = 'portal/';
+
+// data-type="6"
+var href_baseUrl_6 = 'https://dynamic.12306.cn/';
+var href_path_6 = 'otn/';
+
+// data-type="10"
+var href_baseUrl_10 = 'https://exservice.12306.cn/';
+var href_path_10 = 'excater/';
+
+var getSearchUrl =  "https://search.12306.cn/search/v1/h5/search";
+
+
+jQuery.extend({
+	changebigslh : function(){
+		var isHasBigslh = $("body").hasClass("is-caring");
+		if(isHasBigslh){
+			$("body").removeClass('is-caring');
+			$.common_jc_setcookie_wcm("_big_fontsize","0",365*24*60*60,"", ".12306.cn");
+			$("#caring_a").html('敬老版');
+		}else{
+			$("body").addClass('is-caring');
+			$.common_jc_setcookie_wcm("_big_fontsize","1",365*24*60*60,"", ".12306.cn");
+			$("#caring_a").html('标准版');
+		}
+	},
+	common_jc_getcookie_wcm:function(name){
+	   var cookie_start = document.cookie.indexOf(name);
+	   var cookie_end = document.cookie.indexOf(";", cookie_start);
+	   return cookie_start == -1 ? '' : unescape(document.cookie.substring(
+				cookie_start + name.length + 1,
+				(cookie_end > cookie_start ? cookie_end
+						: document.cookie.length)));	
+	   
+	   
+	},
+	common_jc_setcookie_wcm:function(cookieName, cookieValue, seconds, path, domain,secure) {
+	   var expires = new Date();
+	   expires.setTime(expires.getTime() + seconds * 1000);
+	   document.cookie = escape(cookieName) + '=' + escape(cookieValue)
+			  + (expires ? '; expires=' + expires.toGMTString() : '')
+			  + (path ? '; path=' + path : ';path=/')
+			  + (domain ? '; domain=' + domain : '')
+			  + (secure ? '; secure' : '');
+	}
+});
+
+(function ($) {
+	$(document).ready(function() {
+		// IE8、IE9跨域
+        jQuery.support.cors = true;
+		//顶部搜索条显示  从这里开始进行搜索功能
+                    var _big_fontsize = $.common_jc_getcookie_wcm("_big_fontsize");
+		if("1" == _big_fontsize){
+			$("body").addClass('is-caring');
+			$("#caring_a").html('标准版');
+		}
+
+		function stringconnect(array) {
+			if(array[0].indexOf(array[1]) > -1) {
+				array[0] = array[0].replace(array[1],'<span style="color:red;">'+ array[1] + '</span>');
+			}
+			var ico = array[2];
+			array[4] += 
+			'<li url=' + array[3] + '>' +
+			'<i class="icon icon-' + ico + ' "> ' +
+			'</i>' +
+			array[0] +
+			'<span class="list-txt">'+
+			'</span>'+
+			'</li>';
+			resList = array[4];
+			return resList;
+		}
+		$('.header-search .search-input').on('focus', function () {
+			common_search_flag = true;
+			common_search_beforeValue.splice(0,common_search_beforeValue.length);//清空数组
+			$(this).addClass('focus');
+			$(".search-btn").css({
+				"background": "#2676E3"
+			});
+			$('.search-down').fadeOut();
+			$(".search-input").val("");
+			if($('.search-input').val() == '') {//改善下标聚焦
+				common_search_pageIndex = 0;
+			}
+			if(search_cookie_get("searchHistory")) {//cookie方式
+				//换成自己写的cookie开始---->
+				common_search_searchhistory = JSON.parse(search_cookie_get("searchHistory"));
+				//------------>结束
+				common_search_arrayHistory = common_search_searchhistory;
+				common_search_cookieArray = common_search_arrayHistory;//如果有cookie历史记录防止被初始化
+				if(common_search_arrayHistory.length != 0){
+						var historylist = "";
+						for(var i = 0;i <= common_search_arrayHistory.length - 1;i++) {
+							historylist += '<li url='+ common_search_arrayHistory[i].url +'>' + common_search_arrayHistory[i].innerText + '</li>';
+						}
+						$(".search-history-list").html(historylist);
+						$('.search-history').fadeIn();
+					}else{
+						$('.search-history').fadeOut();
+					}
+					
+			}else{
+				if(common_search_arrayHistory != "") {
+					$('.search-history').fadeIn();
+				}else{
+					$('.search-history').fadeOut();
+				}
+			}		
+			//点击搜索按钮功能
+			$(".search-btn")[0].onclick = function () {
+				var emptyVal = $('.header-search .search-input').val();
+				emptyVal = emptyVal.replace(/^ +| +$/g,'')
+				if(emptyVal.length <= 0) {
+					return;
+				}
+				// if($('.header-search .search-input').val() == "") {
+				// 	return;
+				// }
+				var common_search_searchInput = $(".search-input").val();
+				var specialKey = "[@`~!#$^&*()=|{}':;',\\[\\].<>《》/?~！#￥……&*（）——|{}【】‘；：”“'。，、？]‘’";//Specific Key list
+				var inputLength = common_search_searchInput.length;
+				for(var i = 0;i <= inputLength - 1;i++) {
+					if(specialKey.indexOf(common_search_searchInput[i]) > -1){
+						return;
+					}
+				}
+				if(common_search_flag == true) {
+					datarequest(common_search_searchInput);
+				}
+				var lis = $(".search-down-list li");
+				if(common_search_noresults == 'noresults') {//搜索不到结果不做操作
+				}else{
+					if(lis.length ==  0) {//先判断长度，防止用户没拿到相应数据就跳转
+						return;
+					}else{
+						window.open(lis.eq(0).attr("url"));
+					}
+				}
+				// window.open(lis.eq(0).attr("url"));
+				var btnhistory = {
+					innerText:common_search_searchInput,
+					url:lis.eq(0).attr("url")
+				};
+				common_search_cookieArray.unshift(btnhistory);
+				common_search_recordCookie = common_search_cookieArray.slice(0,10);	
+				//换成自己写的cookie开始---->
+				search_cookie_set("searchHistory", JSON.stringify(common_search_recordCookie),60);
+				common_search_searchhistory = JSON.parse(search_cookie_get("searchHistory"));
+				//------------>结束
+				common_search_arrayHistory = common_search_searchhistory;
+				$(".search-input").val("");
+				//点击跳转下面列表第一条
+				var btnlist = "";
+				for(var i = 0;i <= common_search_arrayHistory.length;i++) {
+					for(var i = 0;i <= common_search_arrayHistory.length - 1;i++) {
+						btnlist += '<li url='+ common_search_arrayHistory[i].url +'>'+ common_search_arrayHistory[i].innerText + '</li>';
+					}
+					$(".search-history-list").html(btnlist);
+				}
+			};
+			$(".search-history-list")[0].onclick = function(event){
+				
+				var event = event || window.event;
+				var target = event.target || event.srcElement;
+				if(target.nodeName.toLowerCase() === 'li'){
+					if(target.getAttribute("url") == "undefined") {//无连接url属性时不让跳转
+						return;
+					}else{
+						var lis = $(".search-down-list li");
+						window.open(target.getAttribute("url"));
+					}
+					
+				}
+			};			
+			//清除搜索历史
+			$(".history-clear").on("click", function () {
+				common_search_cookieArray.splice(0,common_search_cookieArray.length);
+				common_search_recordCookie = common_search_cookieArray.slice(0,10);
+				//换成自己写的cookie开始---->
+				search_cookie_set("searchHistory", JSON.stringify(common_search_recordCookie),60);
+				common_search_searchhistory = JSON.parse(search_cookie_get("searchHistory"));
+				//------------>结束
+				common_search_arrayHistory = common_search_searchhistory;
+				list = "";
+				$(".search-history-list").html(common_search_arrayHistory);
+			});
+		})
+
+		//处理ie8与ie9滚动条触发失焦事件
+		var u = navigator.userAgent;
+		if(u.indexOf('Trident') > -1) {
+			var browser = navigator.appName;
+			var b_version = navigator.appVersion;
+			var version = b_version.split(";");
+			var trin_version_flag = version && version.length > 1;				
+			var trim_Version = trin_version_flag ? version[1].replace(/[ ]/g, "") : "";
+			document.onmousedown = function(e) {
+				var e = e || window.event;
+				if(trim_Version == "MSIE8.0" || trim_Version == "MSIE9.0"|| trim_Version == "WOW64" || trim_Version == "MSIE10.0") {//这里为IE8
+					var clientX = e.clientX;
+					var clientY = e.clientY;
+					var browserie_left = $("#search-input").offset().left;//input框距离浏览器左边的距离
+					var browserie_width = window.innerWidth||document.documentElement.clientWidth||document.body.clientWidth;//浏览器的宽度
+					// var browserie_right = browserie_width - browserie_left - $("#search-input").outerWidth();//input距离浏览器右侧的距离
+					var browserie_right =  browserie_left + $("#search-input").outerWidth();//input距离浏览器左侧的距离和input的宽度相加
+					
+					var browserie_top = $("#search-input").offset().top;
+                    var input_height = $("#search-input").outerHeight();
+                    var browserie_y = browserie_top + input_height + 204;
+					if(clientX < browserie_left || clientX > browserie_right || clientY < browserie_top || clientY > browserie_y){
+						$(".search-down").fadeOut();
+                        $('.search-history').fadeOut();
+						common_search_beforeValue.splice(0,common_search_beforeValue.length);//清空数组 
+					}
+				}
+			}
+		}else{
+			$('.header-search .search-input').on('blur', function () {
+				$('.search-history').fadeOut();
+				$(this).removeClass('focus');
+				$(".search-btn").css({
+					"background-color": "#3B99FC"
+				});
+				$(".search-down").fadeOut();
+				common_search_beforeValue.splice(0,common_search_beforeValue.length);//清空数组 
+			})
+		}
+
+		$('.header-search .search-input').on('keyup', function (e) {
+			if(e.keyCode == 8) {//重新搜索改善下标
+				common_search_pageIndex = 0;
+			}
+			$('.search-history').fadeOut();
+			var myReg = /^[\u4e00-\u9fa5]+$/;
+			common_search_last=e.timeStamp;
+			//进行请求数据
+			
+			if( e.keyCode != 16  && e.keyCode != 38 && e.keyCode != 40 && e.keyCode != 37 && e.keyCode != 39) {
+				setTimeout(function() {
+					try{
+						if(common_search_last - e.timeStamp == 0) {
+							common_search_searchInput = $(".search-input").val().toUpperCase();
+							if(common_search_searchInput == "") {
+								$(".search-down-list").html("");
+								$(".search-down").fadeOut();
+							}
+							common_search_beforeValue.push(common_search_searchInput);//继续输入数组push继续提前
+							var specialKey = "[@`~!#$^&*()=|{}':;',\\[\\].<>《》/?~！#￥……&*（）——|{}【】‘；：”“'。，、？]‘’";//Specific Key list
+							var inputLength = common_search_searchInput.length;
+							for(var i = 0;i <= inputLength - 1;i++) {
+								if(specialKey.indexOf(common_search_searchInput[i]) > -1){
+									$(".search-down-list").html("");
+									$(".search-down").fadeOut();
+									common_search_flag = false;
+									return;
+								}else{
+									common_search_flag = true;
+								}
+							}
+							// common_search_beforeValue.push(common_search_searchInput);
+							var size = common_search_beforeValue.length;
+							if(common_search_searchInput != "") {
+								
+								if(common_search_searchInput.indexOf(common_search_beforeValue[size-2]) > -1) {
+									// common_search_flag = true;
+									$(".search-down-list").html("");
+									common_search_firstArray = JSON.parse(common_search_firstData);
+									common_search_localLength = common_search_firstArray.length;
+									var storageList = "";
+									var matchNum = 0;//用来记录匹配车次计数
+									for(var i = 0;i <= common_search_localLength - 1;i++) {
+										if(common_search_firstArray[i].word.indexOf(common_search_searchInput) > -1) {
+											if(common_search_firstArray[i].type == '001') {
+												matchNum++;
+												common_search_firstArray[i].word = common_search_firstArray[i].word.replace(common_search_searchInput,'<span style="color:red;">'+ common_search_searchInput + '</span>');
+												var ico = "huochepiao";
+												storageList += 
+												'<li url=' + common_search_firstArray[i].url + '>' +
+												'<i class="icon icon-' + ico + ' "> ' +
+												'</i>' +
+												common_search_firstArray[i].word +
+												'<span class="list-txt">'+
+												'</span>'+
+												'</li>';
+											}
+										}
+									}
+									if(matchNum == 0 && common_search_flag == true) {
+										datarequest(common_search_searchInput);
+									}
+									$(".search-down-list").html(storageList);
+								}else if(common_search_flag == true){
+									datarequest(common_search_searchInput);
+								}
+							}
+						}
+					}catch(e) {
+						common_search_searchInput = $(".search-input").val().toUpperCase();
+						var specialKey = "[@`~!#$^&*()=|{}':;',\\[\\].<>《》/?~！#￥……&*（）——|{}【】‘；：”“'。，、？]‘’";//Specific Key list
+							var inputLength = common_search_searchInput.length;
+							for(var i = 0;i <= inputLength - 1;i++) {
+								if(specialKey.indexOf(common_search_searchInput[i]) > -1){
+									$(".search-down-list").html("");
+									$(".search-down").fadeOut();
+									common_search_flag = false;
+									return;
+								}else{
+									common_search_flag = true;
+								}
+							}
+						if(common_search_searchInput != "" && common_search_flag ==true){
+							datarequest(common_search_searchInput);				
+						}	
+					}
+				},500);//无操作键盘事件500ms后取得结果
+			}
+			var lis = $(".search-down-list li");
+			if(common_search_pageIndex == 1 && e.keyCode != 40) {
+				common_search_pageIndex = 0;
+			}
+			if(e.keyCode == 40){
+				if(common_search_pageIndex <= lis.length - 1) {
+					common_search_pageIndex++;
+					for(var i = 0;i <= lis.length - 1;i++) {
+						lis.eq(i).css({
+							"background":"",
+							"color":"black"
+						});
+						lis.eq(i).children().eq(0).css({
+							"color":"#3B99FC"
+						});
+					}
+					lis.eq(common_search_pageIndex-1).css({
+						"background":"#3B99FC",
+						"color":"white"
+					});
+					lis.eq(common_search_pageIndex-1).children().eq(0).css({
+						"color":"white"
+					});
+					$("#search-input").val(lis.eq(common_search_pageIndex-1)[0].innerText);
+					if(common_search_pageIndex >= 0 && common_search_pageIndex < 7) {//1
+						$(".search-down-list").scrollTop(0);
+					}else if( common_search_pageIndex != 6 && parseInt( common_search_pageIndex / 6) >= 1)  {
+						//模拟当前数据显示页码
+						var currentPage= parseInt( common_search_pageIndex / 6) + 1;
+						var height =  (currentPage - 1 ) * 204 -30;
+						$(".search-down-list").scrollTop(height);
+					}
+					lis.eq(common_search_pageIndex-1).click(function() {
+						window.open(lis.eq(common_search_pageIndex-1).attr("url"));
+					});
+				}
+			}
+			if(e.keyCode == 38) {
+				if(common_search_pageIndex > 0){
+					common_search_pageIndex--;
+					for(var i = 0;i <= lis.length - 1;i++) {
+						lis.eq(i).css({
+							"background":"",
+							"color":"black"
+						});
+						lis.eq(i).children().eq(0).css({
+							"color":"#3B99FC"
+						});
+					}
+					lis.eq(common_search_pageIndex - 1).css({
+						"background":"#3B99FC",
+						"color":"white"	
+					});
+					lis.eq(common_search_pageIndex-1).children().eq(0).css({
+						"color":"white"
+					});
+					$("#search-input").val(lis.eq(common_search_pageIndex-1)[0].innerText);
+					if(common_search_pageIndex >= 0 && common_search_pageIndex < 7) {//1
+						$(".search-down-list").scrollTop(0);
+						if(common_search_pageIndex == 0) {
+							common_search_pageIndex = 1;
+						}
+					}else if( common_search_pageIndex != 6 && parseInt( common_search_pageIndex / 6) >= 1)  {
+						//模拟当前数据显示页码
+						var currentPage= parseInt( common_search_pageIndex / 6) + 1;
+						var height =  (currentPage - 1 ) * 203.5 -30;
+						$(".search-down-list").scrollTop(height);
+					}
+					lis.eq(common_search_pageIndex -1).on("click",function(){
+						window.open(lis.eq(common_search_pageIndex).attr("url"));
+					});
+				}
+			} 
+			if (e.keyCode == 13) {//点击回车操作
+				var url;
+				var emptyVal = $('.header-search .search-input').val();
+				emptyVal = emptyVal.replace(/^ +| +$/g,'')
+				if(emptyVal.length <= 0) {
+					return;
+				}
+				var common_search_searchInput = $(".search-input").val();
+				if(common_search_pageIndex == 0){
+					// window.open(lis.eq(0).attr("url"));
+					turnTo(lis.eq(0).attr("url"));
+					url = lis.eq(0).attr("url");
+				}else{
+					// window.open(lis.eq(common_search_pageIndex - 1).attr("url"));
+					turnTo(lis.eq(common_search_pageIndex - 1).attr("url"));
+					url = lis.eq(common_search_pageIndex - 1).attr("url");
+				}
+				var enterhistory = {
+					innerText:common_search_searchInput,
+					url:url
+				};
+				var specialKey = "[@`~!#$^&*()=|{}':;',\\[\\].<>《》/?~！#￥……&*（）——|{}【】‘；：”“'。，、？]‘’";//Specific Key list
+				var inputLength = common_search_searchInput.length;
+				for(var i = 0;i <= inputLength - 1;i++) {
+					if(specialKey.indexOf(common_search_searchInput[i]) > -1){
+						return;
+					}
+				}
+				
+				function turnTo(url) {
+					if(url === undefined || url === "" ){
+						return;
+					}else{
+						window.open(url);
+					}
+				}
+
+				common_search_cookieArray.unshift(enterhistory);
+				common_search_recordCookie = common_search_cookieArray.slice(0,10);
+				//换成自己写的cookie开始---->
+				search_cookie_set("searchHistory", JSON.stringify(common_search_recordCookie),60);
+				common_search_searchhistory = JSON.parse(search_cookie_get("searchHistory"));
+				//------------>结束
+				common_search_arrayHistory = common_search_searchhistory;
+				$(".search-input").val("");
+			
+			}
+			
+			var list = "";
+			for(var i = 0;i <= common_search_arrayHistory.length - 1;i++) {
+				list += '<li url='+ common_search_arrayHistory[i].url +'>' + common_search_arrayHistory[i].innerText + '</li>';
+			}
+			$(".search-history-list").html(list);
+		})
+		function datarequest(common_search_searchInput){
+			// common_search_flag = false;
+			$.ajax({
+				url: getSearchUrl,
+				dataType: 'jsonp',
+				xhrFields: { withCredentials : true },
+				crossDomain: true,
+				type: "GET",
+				timeout:10000,
+				cache:false,
+				data: {
+					"keyword": common_search_searchInput,
+					"suorce": "",
+					"action": ""
+				},
+				success: function (res) {
+					var jsonData = JSON.stringify(res.data);
+					localStorage.setItem("common_search_firstData",jsonData);
+					common_search_firstData = localStorage.getItem("common_search_firstData");
+					//符合匹配的字高亮显示
+					var l = res.data.length;
+					if(l == 0) {
+						var emptyArray = [
+							{"value":"城市","ico":"place"},
+							{"value":"车票","ico":"jianpiao"},
+							{"value":"正晚点","ico":"time"},
+							{"value":"起售时间","ico":"selltime"},
+							{"value":"检票口","ico":"jianpiao"},
+							{"value":"时刻表","ico":"date"},
+							{"value":"代售点","ico":"train"},
+							{"value":"交通查询","ico":"zhanche"},
+							{"value":"天气","ico":"weather"},
+							{"value":"问答","ico":"wenda"},
+							{"value":"服务","ico":"fuwu"},
+							{"value":"订单","ico":"dingdanchaxun"}
+						];
+						var l = emptyArray.length;
+						var emptyHtml = "";
+						for(var i = 0;i <= l - 1;i++) {
+							emptyHtml +=
+							'<li>' +
+							'<i class="icon icon-' + emptyArray[i].ico + ' "> ' +
+							'</i>' +
+							emptyArray[i].value +
+							'<span class="list-txt">'+
+							'</span>'+
+							'</li>';
+						}
+						$(".search-down-list").html(emptyHtml);
+						$('.search-down').fadeIn();
+						common_search_noresults = 'noresults';
+						return;
+					}
+					var resList = "";
+					for(var i = 0;i <= l - 1;i++) {
+						if(res.data[i].type == '001') {
+							var ico = "huochepiao";
+							resList = stringconnect([res.data[i].word,common_search_searchInput,ico,res.data[i].url,resList]);
+						}else if(res.data[i].type == 'view'){
+							var ico = "wenda";
+							resList = stringconnect([res.data[i].word,common_search_searchInput,ico,res.data[i].url,resList]);
+						}else if(res.data[i].type == '002') {
+							var ico = "selltime";
+							resList = stringconnect([res.data[i].word,common_search_searchInput,ico,res.data[i].url,resList]);
+						}else if(res.data[i].type == '003') {
+							var ico = "time";
+							resList = stringconnect([res.data[i].word,common_search_searchInput,ico,res.data[i].url,resList]);
+						}else if(res.data[i].type == '004') {
+							var ico = "selltime";
+							resList = stringconnect([res.data[i].word,common_search_searchInput,ico,res.data[i].url,resList]);
+						}else if(res.data[i].type == '006') {
+							var ico = "yupiao";
+							resList = stringconnect([res.data[i].word,common_search_searchInput,ico,res.data[i].url,resList]);
+						}else if(res.data[i].type == '100') {
+							var ico = "train";
+							resList = stringconnect([res.data[i].word,common_search_searchInput,ico,res.data[i].url,resList]);
+						}else if(res.data[i].type == '101') {
+							var ico = "huochepiao";
+							resList = stringconnect([res.data[i].word,common_search_searchInput,ico,res.data[i].url,resList]);
+						}else if(res.data[i].type == '102') {
+							var ico = "dingdanchaxun";
+							resList = stringconnect([res.data[i].word,common_search_searchInput,ico,res.data[i].url,resList]);
+						}else if(res.data[i].type == '103') {
+							var ico = "dingdanchaxun";
+							resList = stringconnect([res.data[i].word,common_search_searchInput,ico,res.data[i].url,resList]);
+						}else if(res.data[i].type == '104') {
+							var ico = "user";
+							resList = stringconnect([res.data[i].word,common_search_searchInput,ico,res.data[i].url,resList]);
+						}else if(res.data[i].type == '105') {
+							var ico = "wenda";
+							resList = stringconnect([res.data[i].word,common_search_searchInput,ico,res.data[i].url,resList]);
+						}else if(res.data[i].type == '106') {
+							var ico = "wenda";
+							resList = stringconnect([res.data[i].word,common_search_searchInput,ico,res.data[i].url,resList]);
+						}else if(res.data[i].type == '107') {
+							var ico = "wenda";
+							resList = stringconnect([res.data[i].word,common_search_searchInput,ico,res.data[i].url,resList]);
+						}else if(res.data[i].type == '108') {
+							var ico = "wenda";
+							resList = stringconnect([res.data[i].word,common_search_searchInput,ico,res.data[i].url,resList]);
+						}else if(res.data[i].type == '109') {
+							var ico = "wenda";
+							resList = stringconnect([res.data[i].word,common_search_searchInput,ico,res.data[i].url,resList]);
+						}else if(res.data[i].type == '110') {
+							var ico = "dingcan";
+							resList = stringconnect([res.data[i].word,common_search_searchInput,ico,res.data[i].url,resList]);
+						}else if(res.data[i].type == '111') {
+							var ico = "user";
+							resList = stringconnect([res.data[i].word,common_search_searchInput,ico,res.data[i].url,resList]);
+						}else if(res.data[i].type == '112') {
+							var ico = "wenda";
+							resList = stringconnect([res.data[i].word,common_search_searchInput,ico,res.data[i].url,resList]);
+						}else if(res.data[i].type == '113') {
+							var ico = "wenda";
+							resList = stringconnect([res.data[i].word,common_search_searchInput,ico,res.data[i].url,resList]);
+						}else if(res.data[i].type == '114') {
+							var ico = "wenda";
+							resList = stringconnect([res.data[i].word,common_search_searchInput,ico,res.data[i].url,resList]);
+						}else if(res.data[i].type == '115') {
+							var ico = "fuwu";
+							resList = stringconnect([res.data[i].word,common_search_searchInput,ico,res.data[i].url,resList]);
+						}else if(res.data[i].type == '116') {
+							var ico = "fuwu";
+							resList = stringconnect([res.data[i].word,common_search_searchInput,ico,res.data[i].url,resList]);
+						}else if(res.data[i].type == '117') {
+							var ico = "fuwu";
+							resList = stringconnect([res.data[i].word,common_search_searchInput,ico,res.data[i].url,resList]);
+						}else if(res.data[i].type == '118') {
+							var ico = "fuwu";
+							resList = stringconnect([res.data[i].word,common_search_searchInput,ico,res.data[i].url,resList]);
+						}else if(res.data[i].type == '119') {
+							var ico = "dingdanchaxun";
+							resList = stringconnect([res.data[i].word,common_search_searchInput,ico,res.data[i].url,resList]);
+						}else if(res.data[i].type == '120') {
+							var ico = "xiangdao"; 
+							resList = stringconnect([res.data[i].word,common_search_searchInput,ico,res.data[i].url,resList]);
+						}else if(res.data[i].type == '121') {
+							var ico = "shanglv"; 
+							resList = stringconnect([res.data[i].word,common_search_searchInput,ico,res.data[i].url,resList]);
+						}else if(res.data[i].type == '122') {
+							var ico = "user"; 
+							resList = stringconnect([res.data[i].word,common_search_searchInput,ico,res.data[i].url,resList]);
+						}
+						else if(res.data[i].type == '123') {
+							var ico = "user";
+							resList = stringconnect([res.data[i].word,common_search_searchInput,ico,res.data[i].url,resList]);
+						}else if(res.data[i].type == '124') {
+							var ico = "user";
+							resList = stringconnect([res.data[i].word,common_search_searchInput,ico,res.data[i].url,resList]);
+						}else if(res.data[i].type == '125') {
+							var ico = "fuwu";
+							resList = stringconnect([res.data[i].word,common_search_searchInput,ico,res.data[i].url,resList]);
+						}else if(res.data[i].type == '126') {
+							var ico = "wenda"; 
+							resList = stringconnect([res.data[i].word,common_search_searchInput,ico,res.data[i].url,resList]);
+						}else if(res.data[i].type == '127') {
+							var ico = "dingdanchaxun";
+							resList = stringconnect([res.data[i].word,common_search_searchInput,ico,res.data[i].url,resList]);
+						}else if(res.data[i].type == '128') {
+							var ico = "dingcan";
+							resList = stringconnect([res.data[i].word,common_search_searchInput,ico,res.data[i].url,resList]);
+						}else if(res.data[i].type == '129') {
+							var ico = "fuwu"; 
+							resList = stringconnect([res.data[i].word,common_search_searchInput,ico,res.data[i].url,resList]);
+						}else if(res.data[i].type == '130') {
+							var ico = "user";
+							resList = stringconnect([res.data[i].word,common_search_searchInput,ico,res.data[i].url,resList]);
+						}else if(res.data[i].type == '131') {
+							var ico = "dingdanchaxun"; 
+							resList = stringconnect([res.data[i].word,common_search_searchInput,ico,res.data[i].url,resList]);
+						}
+					}
+					$(".search-down-list").html(resList);
+					$('.search-down').fadeIn();
+					$(".search-down-list").off("click","li").on("click","li",function() {
+						var history = {//拟定以对象方式存储
+							innerText:$(this)[0].innerText,
+							url:$(this)[0].getAttribute("url")
+						}
+						if(history.url == "" || history.url == undefined || history.url == null) {
+				              return;
+				        }else{
+				              window.open($(this).attr("url"));
+				        }
+						common_search_cookieArray.unshift(history);
+						var common_search_recordCookie = common_search_cookieArray.slice(0,10);
+						//换成自己写的cookie开始---->
+						search_cookie_set("searchHistory", JSON.stringify(common_search_recordCookie),60);
+						common_search_searchhistory = JSON.parse(search_cookie_get("searchHistory"));
+						//------------>结束
+						common_search_arrayHistory = common_search_searchhistory;
+						var clicklist = "";
+						for(var i = 0;i <= common_search_arrayHistory.length - 1;i++) {
+							clicklist += '<li url='+ common_search_arrayHistory[i].url +'>'+ common_search_arrayHistory[i].innerText + '</li>';
+						}
+						$(".search-history-list").html(clicklist);
+					});
+				},
+				error: function (res) {
+				}
+			});
+        }
+		function search_cookie_get(name) {
+				var cookie_start = document.cookie.indexOf(name);
+				var cookie_end = document.cookie.indexOf(";", cookie_start);
+				return cookie_start == -1 ? '' : unescape(document.cookie.substring(
+					cookie_start + name.length + 1,
+					(cookie_end > cookie_start ? cookie_end :
+						document.cookie.length)));
+		}
+
+		function search_cookie_set(cookieName, cookieValue, seconds, path, domain, secure) {
+				var domainNow = document.domain;
+				domainNow = domainNow.substring(domainNow.indexOf(".") + 1, domainNow.length);
+				var expires = new Date();
+				expires.setTime(expires.getTime() + seconds * 1000);
+				document.cookie = escape(cookieName) + '=' + escape(cookieValue) +
+					(path ? '; path=' + path : ';path=/') +
+					(domain ? '; domain=' + domainNow : '; domain=' + domainNow) +
+					(secure ? '; secure' : '')+(';expires='+expires);
+		}
+
+		$('.search-down .close').on('click', function () {
+			$(".search-input").val("");
+			$(this).parent().fadeOut();
+			common_search_beforeValue.splice(0,common_search_beforeValue.length);//清空数组 
+		})
+	});
+})(jQuery);
+
+function hrefFn() {
+    $('a[name="g_href"]').click(function () {
+        var data_redirect = $(this).attr('data-redirect');
+        var data_type = $(this).attr('data-type');
+        var data_href = $(this).attr('data-href');
+        var data_target = $(this).attr('data-target');
+
+        if (data_redirect == 'Y') {
+            if (data_target == '_blank') {
+                if (data_type == 1) {
+                    window.open(href_baseUrl_1 + href_path_1 + data_href);
+                } else if (data_type == 2) {
+                    window.open(href_baseUrl_2 + href_path_2 + data_href);
+                } else if (data_type == 3) {
+                    window.open(href_baseUrl_3 + href_path_3 + data_href);
+                } else if (data_type == 4) {
+                    window.open(href_baseUrl_4 + href_path_4 + data_href);
+                } else if (data_type == 5) {
+                    window.open(href_baseUrl_5 + href_path_5 + data_href);
+                } else if (data_type == 6) {
+                    window.open(href_baseUrl_6 + href_path_6 + data_href);
+                } else if (data_type == 10) {
+                    window.open(href_baseUrl_10 + href_path_10 + data_href);
+                }
+            } else {
+                if (data_type == 1) {
+                    window.location.href = href_baseUrl_1 + href_path_1 + data_href;
+                } else if (data_type == 2) {
+                    window.location.href = href_baseUrl_2 + href_path_2 + data_href;
+                } else if (data_type == 3) {
+                    window.location.href = href_baseUrl_3 + href_path_3 + data_href;
+                } else if (data_type == 4) {
+                    window.location.href = href_baseUrl_4 + href_path_4 + data_href;
+                } else if (data_type == 5) {
+                    window.location.href = href_baseUrl_5 + href_path_5 + data_href;
+                } else if (data_type == 6) {
+                    window.location.href = href_baseUrl_6 + href_path_6 + data_href;
+                } else if (data_type == 10) {
+                    window.location.href = href_baseUrl_10 + href_path_10 + data_href;
+                }
+            }
+        } else {
+            if (data_target == '_blank') {
+                window.open(data_href)
+            } else {
+                window.location.href = data_href;
+            }
+        }
+    });
+}
+hrefFn();
+</script>
+
+<!-- 返回顶部 -->
+<div class="gototop js-top">
+  <a href="javascript:;" class="js-gotop" title="返回顶部"><i class="icon icon-gotop"></i></a>
+</div>
+
+
+</body>
+</html>
