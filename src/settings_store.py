@@ -19,7 +19,7 @@ def atomic(path,text,private=False):
     path.parent.mkdir(parents=True,exist_ok=True)
     fd,name=tempfile.mkstemp(dir=path.parent)
     try:
-        with os.fdopen(fd,'w') as f:f.write(text)
+        with os.fdopen(fd,'wb' if isinstance(text,bytes) else 'w') as f:f.write(text)
         if private:os.chmod(name,0o600)
         os.replace(name,path)
     finally:
@@ -85,7 +85,7 @@ class SettingsStore:
         for k in ('model',):
             if not isinstance(a[k],str) or not 1<=len(a[k])<=200 or not isinstance(c['embedding'][k],str) or not 1<=len(c['embedding'][k])<=200:raise PipelineError('模型名无效。')
         for k in ('assistant_name','company_name','description'):
-            if not isinstance(c['web'][k],str) or not 1<=len(c['web'][k])<=300:raise PipelineError('企业信息长度无效。')
+            if not isinstance(c['web'][k],str) or not (0 if k=='description' else 1)<=len(c['web'][k])<=300:raise PipelineError('助手名称和企业／场景名称不能为空，介绍最多300字。')
         if not __import__('re').fullmatch(r'#[0-9a-fA-F]{6}',c['web'].get('accent','#2479b9')) or c['web'].get('theme','clean') not in ('clean','soft','night'):
             raise PipelineError('主题色或风格无效。')
         for k,limit in [('welcome_title',100),('welcome_subtitle',200)]:

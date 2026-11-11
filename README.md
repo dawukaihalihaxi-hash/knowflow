@@ -4,7 +4,7 @@
 
 ## 体验
 
-线上演示：https://knowflow-kparis.onrender.com/ 。作品演示站使用固定知识库，管理页面只读，可打开出行通体验真实问答。模型费用由部署者账号承担；仓库不包含模型或数据库密钥。
+线上演示：https://knowflow-kparis.onrender.com/ 。作品演示站支持限额匿名创建、上传、构建与发布；出行通为只读样例，管理员登录后可管理。模型费用由部署者账号承担；仓库不包含模型或数据库密钥。
 
 ## 已实现能力
 
@@ -33,9 +33,11 @@ APP_CONFIG=config/rag.railway.json .venv/bin/python app.py
 
 ## Render部署
 
-仓库提供`render.yaml`，使用免费Web Service和Gunicorn。`APP_PUBLIC_DEMO=1`允许访客查看固定平台并进行问答，同时在服务端拒绝所有管理写操作。三个服务凭据仅在Render配置；管理员口令与会话密钥由Render生成，不能放进源码。
+仓库提供`render.yaml`，使用免费Web Service和Gunicorn。`APP_PUBLIC_TRIAL=1`允许匿名访客创建一个助手、上传最多10份资料并构建发布。先在已有Supabase项目执行`supabase/migrations/002_anonymous_trial.sql`，并创建`config/trial-limits.json`指定的私有Storage bucket（禁止公开，不配置浏览器访问策略）。配额与工作空间表只授权service_role。每份5MB、累计20MB；每天3次构建、20次问答；7天到期停用。全站容量和模型工作量限额见该配置。三个服务凭据仅在Render配置；管理员口令与会话密钥由Render生成，不能放进源码。
 
-免费实例会休眠，首次访问可能等待唤醒；运行时文件在重启或重新部署后可能丢失，因此本版本不是持久化生产服务。关闭演示模式用于正式管理前，需处理持久化和访问权限。请求限流不等于费用预算上限。
+免费实例会休眠，首次访问可能等待唤醒。试用模式将配置、附件、版本与向量缓存保存到同一Supabase项目中的私有Storage，数据库原子保存清单及额度；本地文件仅为缓存。匿名身份保存在浏览器签名Cookie中，清除后无法找回管理权。共享链接仅开放问答，不公开原始附件；回答仍可能引用上传内容，发布前应确认。额度限制不等于人民币账单硬上限。
+
+管理员通过网站独立口令登录，不使用电脑密码或IP识别。管理入口为`/login`。口令仅保存在Render环境变量中，不能写入Git。不要变更APP_SESSION_SECRET，否则既有匿名身份无法继续管理助手。单实例单worker部署；数据库租约避免部署切换期间多个实例同时写入。
 
 ## 离线验证
 

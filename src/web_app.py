@@ -13,7 +13,7 @@ import threading
 import time
 from urllib.parse import urlsplit
 from werkzeug.exceptions import HTTPException
-from flask import Flask,request,jsonify,render_template,session,redirect,Response,send_file
+from flask import Flask,request,jsonify,render_template,session,redirect,Response,send_file,g
 from rag_pipeline import Pipeline,PipelineError,read_env
 from answer_service import AnswerService
 from settings_store import SettingsStore,LOCK,atomic
@@ -22,11 +22,13 @@ from document_store import DocumentStore
 from document_extractors import capabilities
 from editor_service import editor_view,save_editor,model_options,WEB_KEYS,TOP_KEYS
 from trace_store import save_trace,list_traces,load_trace
+from trial_service import CloudWorkspace,TrialError
 
 def create_app(config_path,testing=False):
     config_path=Path(config_path).resolve();root=config_path.parent.parent;read_env(root/'.env')
     prod=os.environ.get('APP_ENV')=='production'
-    public_demo=os.environ.get('APP_PUBLIC_DEMO')=='1'
+    trial_mode=os.environ.get('APP_PUBLIC_TRIAL')=='1'
+    public_demo=os.environ.get('APP_PUBLIC_DEMO')=='1' and not trial_mode
     if prod and not all(os.environ.get(k) for k in ('APP_ADMIN_PASSWORD','APP_USER_PASSWORD','APP_SESSION_SECRET')):
         raise RuntimeError('Production requires administrator/user passwords and session secret')
     app=Flask(__name__,template_folder=str(root/'templates'),static_folder=str(root/'static'))
@@ -40,17 +42,47 @@ def create_app(config_path,testing=False):
     app.config['KNOWFLOW_VERSION']=boot_version
     @app.context_processor
     def platform_brand_context():
-        return {'public_demo':public_demo,'app_version':boot_version,'platform_brand':json.loads((root/'config/platform-brand.json').read_text(encoding='utf-8'))}
+        return {'public_demo':readonly_page(),'trial_mode':trial_mode,'is_platform_admin':admin(),'trial_limits':cloud.limits if cloud else {},'app_version':boot_version,'platform_brand':json.loads((root/'config/platform-brand.json').read_text(encoding='utf-8'))}
 
     app.config.update(TESTING=testing,SECRET_KEY=os.environ.get('APP_SESSION_SECRET') or secrets.token_hex(32),
         SESSION_COOKIE_HTTPONLY=True,SESSION_COOKIE_SAMESITE='Strict',SESSION_COOKIE_SECURE=prod,
-        PERMANENT_SESSION_LIFETIME=timedelta(hours=8),MAX_CONTENT_LENGTH=11*1024*1024)
+        PERMANENT_SESSION_LIFETIME=timedelta(days=7) if trial_mode else timedelta(hours=8),MAX_CONTENT_LENGTH=11*1024*1024)
+    cloud=CloudWorkspace(config_path) if trial_mode else None
+    cloud_mutex=threading.Lock()
     catalog=AssistantCatalog(config_path)
+    if cloud and cloud.revision<0:
+        cloud.acquire()
+        try:cloud.restore();cloud.persist()
+        finally:cloud.release()
     store=SettingsStore(config_path);recent=defaultdict(deque);slots=threading.BoundedSemaphore(2)
     job={'state':'idle','message':'暂无构建任务'};joblock=threading.Lock();app.extensions['settings_store']=store
     def local():
         return not prod and request.remote_addr in ('127.0.0.1','::1') and request.host.split(':')[0] in ('localhost','127.0.0.1','[::1]') and not request.headers.get('X-Forwarded-For')
     def admin():return local() or session.get('role')=='admin'
+    def owns(record):return bool(cloud and cloud.owns(record,session['client']))
+    def editable(record):return admin() or owns(record) and not cloud.expired(record)
+    def readonly_page():
+        if not trial_mode:return public_demo
+        aid=request.args.get('assistant') or (catalog.data()['default_id'] if request.path=='/settings' else None)
+        return bool(aid and not editable(catalog.get(aid)))
+    def visible(record):return admin() or not record.get('owner') or owns(record)
+    def acquire_cloud():
+        if not cloud:return
+        if not cloud_mutex.acquire(timeout=3):raise TrialError('正在处理另一项操作，请稍后重试。',409)
+        g.cloud_mutex=True;g.cloud_owned=False
+        if not cloud.building:
+            cloud.acquire();g.cloud_owned=True;cloud.restore()
+        elif request.method=='POST' and not re.fullmatch(r'/api/assistants/[a-z0-9-]+/ask',request.path):
+            raise TrialError('正在构建知识，请完成后再修改。',409)
+    @app.teardown_request
+    def cleanup_cloud(error):
+        if getattr(g,'cloud_mutex',False):
+            try:
+                if getattr(g,'cloud_owned',False) and not cloud.building:cloud.release()
+            finally:g.cloud_mutex=False;cloud_mutex.release()
+    @app.errorhandler(TrialError)
+    def trial_error(error):return jsonify(error=str(error)),error.status
+
     @app.before_request
     def guard():
         if request.host.split(':')[0] not in ('localhost','127.0.0.1','[::1]') and not prod:return jsonify(error='本地预览仅允许本机访问。'),403
@@ -59,19 +91,48 @@ def create_app(config_path,testing=False):
         if supplied and supplied!=boot_version:return jsonify(error='页面与服务版本不一致，请刷新。',code='version_mismatch'),409
         if request.path.startswith('/api/') and fingerprint()!=boot_version:return jsonify(error='服务加载的代码已过期，请重启本机服务并刷新。',code='restart_required'),409
         if request.path in ('/healthz','/login') or request.path.startswith('/static/'):return
-        if public_demo and not session.get('role'):session['role']='user'
+        if (public_demo or trial_mode) and not session.get('role'):session['role']='user'
+        if trial_mode:
+            session.permanent=True
+            acquire_cloud()
+            aid=(request.view_args or {}).get('aid') or request.args.get('assistant') or (catalog.data()['default_id'] if request.path in ('/settings','/api/build') else None)
+            management=request.path in ('/settings','/api/build') or request.path.startswith(('/api/admin/assistants/','/admin/assistants/'))
+            if aid:
+                record=catalog.get(aid) if not request.path.endswith('/restore') else next((r for r in catalog.data()['assistants'] if r['id']==aid),None)
+                if not record:raise TrialError('找不到这个助手。',404)
+                if management:
+                    if not visible(record):raise TrialError('没有这个助手的管理权限。')
+                    if (request.method=='POST' or 'preview' in request.path or request.path.endswith('/configuration')) and not editable(record):raise TrialError('此助手为只读样例，或你的试用期已结束。')
+                elif cloud.expired(record) and not admin():raise TrialError('这个助手的试用期已结束。',410)
+                elif record.get('owner') and not record.get('enabled') and not editable(record):raise TrialError('助手尚未发布。',404)
+            if request.path.startswith('/a/') and '/sources/' in request.path and not admin() and not owns(record):raise TrialError('原始资料仅创建者可以查看。')
+            allowed=request.path in ('/admin','/setup','/settings','/api/admin/editor-defaults','/api/admin/assistants','/api/admin/deleted-assistants','/api/admin/document-capabilities','/api/build') or bool(re.fullmatch(r'/(?:api/admin|admin)/assistants/[a-z0-9-]+/(?:editor|configuration|delete|restore|resume|pause|activate|logo|preview|preview-chat|preview-theme|preview-brand|preview-ask|documents(?:/[^/]+(?:/(?:action|original|update))?)?)',request.path))
+            if (request.path.startswith(('/api/admin','/admin/','/api/settings','/api/credentials','/api/connection')) or request.path=='/api/build') and not allowed and not admin():raise TrialError('底层设置仅允许管理员访问。')
+            g.trial_allowed=allowed
         if public_demo and request.method=='POST' and request.path not in ('/login','/logout','/api/ask') and not re.fullmatch(r'/api/assistants/[a-z0-9-]+/ask',request.path):return jsonify(error='作品演示站使用固定知识快照，管理操作不开放。'),403
         if not local() and session.get('role') not in ('user','admin'):
             return (jsonify(error='请先登录。'),401) if request.path.startswith('/api/') else redirect('/login')
         if request.path in ('/admin','/setup','/settings') or request.path.startswith(('/admin/','/api/admin','/api/settings','/api/credentials','/api/build','/api/connection')):
             demo_read=public_demo and request.method=='GET' and (request.path in ('/admin','/settings','/api/admin/assistants','/api/admin/deleted-assistants','/api/admin/document-capabilities','/api/build') or re.fullmatch(r'/api/admin/assistants/[a-z0-9-]+/(editor|documents(?:/[^/]+(?:/original)?)?)',request.path))
-            if not admin() and not demo_read:return jsonify(error='需要管理员权限。'),403
+            if not admin() and not demo_read and not (trial_mode and getattr(g,'trial_allowed',False)):return jsonify(error='需要管理员权限。'),403
         if request.method=='POST':
             if not hmac.compare_digest(request.headers.get('X-CSRF-Token',''),session['csrf']):return jsonify(error='页面验证失效，请刷新。',code='csrf_expired'),403
             origin=request.headers.get('Origin')
             if origin and urlsplit(origin).netloc!=request.host:return jsonify(error='拒绝跨站请求。'),403
     @app.after_request
     def headers(response):
+        if cloud and getattr(g,'cloud_owned',False) and not cloud.building:
+            try:
+                if response.status_code<400:cloud.persist()
+                else:cloud.restore(force=True)
+            except Exception:
+                cloud.needs_restore=True
+                app.logger.exception('trial_checkpoint_failed')
+                response=jsonify(error='云端保存未确认成功，请刷新后重试。');response.status_code=503
+            finally:
+                try:cloud.release()
+                except Exception:app.logger.exception('trial_lease_release_failed')
+                g.cloud_owned=False
         response.headers['Cache-Control']='no-store'
         response.headers['X-KnowFlow-Version']=boot_version
         response.headers['X-Content-Type-Options']='nosniff';response.headers['X-Frame-Options']='DENY'
@@ -118,15 +179,16 @@ def create_app(config_path,testing=False):
             expected=os.environ.get(name)
             if expected and isinstance(pwd,str) and hmac.compare_digest(pwd,expected):role=candidate;break
         if role is None:return jsonify(error='口令不正确。'),401
-        session.clear();session.update(role=role,csrf=secrets.token_hex(24),client=secrets.token_hex(16));session.permanent=True
+        client=session.get('client',secrets.token_hex(16));session.clear();session.update(role=role,csrf=secrets.token_hex(24),client=client);session.permanent=True
         return jsonify(ok=True)
     @app.route('/logout',methods=['POST'])
-    def logout():session.clear();return jsonify(ok=True)
+    def logout():
+        client=session.get('client',secrets.token_hex(16));session.clear();session.update(client=client,csrf=secrets.token_hex(24));return jsonify(ok=True)
     @app.route('/')
     def home():
         if not any(not r.get('deleted_at') for r in catalog.data()['assistants']):
             return redirect('/setup') if admin() else ('工作空间尚未初始化，请联系管理员。',503)
-        return redirect('/admin' if admin() or public_demo else '/a/'+catalog.get()['id'])
+        return redirect('/admin' if admin() or public_demo or trial_mode else '/a/'+catalog.get()['id'])
     @app.route('/settings')
     def settings():
         record=catalog.get(request.args.get('assistant'));return render_template('settings.html',csrf=session['csrf'],authenticated=not local(),assistant_id=record['id'],creating=False,onboarding=record.get('configuration_complete') is False)
@@ -225,15 +287,31 @@ def create_app(config_path,testing=False):
             return jsonify(step=max(step,previous),complete=step==5)
     @app.route('/api/admin/assistants',methods=['GET','POST'])
     def assistants():
-        if request.method=='GET':return jsonify(assistants=[catalog.summary(r) for r in catalog.data()['assistants'] if not r.get('pending_setup') and not r.get('deleted_at')],profiles=json.loads(store.registry.read_text()))
-        return jsonify(catalog.create(request.get_json())),201
+        if request.method=='GET':
+            rows=[]
+            for r in catalog.data()['assistants']:
+                if r.get('deleted_at') or not visible(r):continue
+                if r.get('pending_setup') and not trial_mode:continue
+                row=catalog.summary(r);row.update(can_manage=editable(r),expires_at=r.get('expires_at'),sample=not bool(r.get('owner')))
+                # Never expose ownership secrets or server file paths.
+                if trial_mode:row={k:row[k] for k in ('id','name','description','brand','created_at','documents','chunks','enabled','ready','configuration_complete','pending_index','url','settings_url','can_manage','expires_at','sample') if k in row}
+                rows.append(row)
+            return jsonify(assistants=rows,profiles=[] if trial_mode else json.loads(store.registry.read_text()),trial=cloud.limits if cloud else None)
+        values=request.get_json()
+        if cloud and not admin():
+            cloud.check_create(catalog,session['client'])
+            if not isinstance(values,dict) or values.get('profile'):raise TrialError('试用助手请上传自己的资料。')
+            values={**values,'unified_flow':True}
+        result=catalog.create(values)
+        if cloud and not admin():cloud.attach(catalog,result['id'],session['client'])
+        return jsonify(result),201
     @app.route('/api/admin/assistants/<aid>/delete',methods=['POST'])
     def delete_assistant(aid):return jsonify(catalog.remove(aid))
     @app.route('/api/admin/assistants/<aid>/restore',methods=['POST'])
     def restore_assistant(aid):return jsonify(catalog.restore(aid))
     @app.route('/api/admin/deleted-assistants')
     def deleted_assistants():
-        return jsonify(assistants=[{'id':r['id'],'name':read(catalog.path(r))['web']['assistant_name'],'deleted_at':r['deleted_at']} for r in catalog.data()['assistants'] if r.get('deleted_at')])
+        return jsonify(assistants=[{'id':r['id'],'name':read(catalog.path(r))['web']['assistant_name'],'deleted_at':r['deleted_at']} for r in catalog.data()['assistants'] if r.get('deleted_at') and visible(r)])
     @app.route('/admin/assistants/<aid>/traces')
     def traces_page(aid):
         catalog.get(aid);tid=request.args.get('trace')
@@ -259,19 +337,30 @@ def create_app(config_path,testing=False):
             result=catalog.activate(aid)
             return jsonify(result)
     @app.route('/api/admin/document-capabilities')
-    def document_capabilities():return jsonify(capabilities())
+    def document_capabilities():
+        result=capabilities()
+        if cloud:result.update(max_bytes=cloud.limits['file_bytes'],max_batch_files=cloud.limits['files'])
+        return jsonify(result)
     @app.route('/api/admin/assistants/<aid>/documents',methods=['GET','POST'])
     def documents(aid):
         docs=DocumentStore(catalog,aid)
         if request.method=='GET':return jsonify(documents=docs.listing())
         file=request.files.get('file')
         if not file:raise PipelineError('请选择文档。')
-        return jsonify(docs.upload(file.filename,file.stream.read(10*1024*1024+1))),201
+        content=file.stream.read(10*1024*1024+1)
+        if cloud:cloud.upload_check(catalog,aid,content)
+        result=docs.upload(file.filename,content)
+        if cloud and not result.get('duplicate'):catalog.update(aid,uploaded_bytes=catalog.get(aid).get('uploaded_bytes',0)+len(content))
+        return jsonify(result),201
     @app.route('/api/admin/assistants/<aid>/documents/<did>/update',methods=['POST'])
     def update_document(aid,did):
         file=request.files.get('file')
         if not file:raise PipelineError('请选择新文件。')
-        return jsonify(DocumentStore(catalog,aid).update_file(did,file.filename,file.stream.read(10*1024*1024+1)))
+        content=file.stream.read(10*1024*1024+1)
+        if cloud:cloud.upload_check(catalog,aid,content,replacement=did)
+        result=DocumentStore(catalog,aid).update_file(did,file.filename,content)
+        if cloud and not result.get('duplicate'):catalog.update(aid,uploaded_bytes=catalog.get(aid).get('uploaded_bytes',0)+len(content))
+        return jsonify(result)
     @app.route('/api/admin/assistants/<aid>/documents/<did>',methods=['GET','POST'])
     def document(aid,did):
         docs=DocumentStore(catalog,aid)
@@ -300,8 +389,8 @@ def create_app(config_path,testing=False):
     @app.route('/a/<aid>/logo/<version>')
     def serve_logo(aid,version):
         record=catalog.get(aid)
-        if record.get('configuration_complete') is False and not admin():return jsonify(error='请先完成助手的完整配置。'),403
-        if not record['enabled'] and not admin():return jsonify(error='助手尚未启用。'),404
+        if record.get('configuration_complete') is False and not admin() and not owns(record):return jsonify(error='请先完成助手的完整配置。'),403
+        if not record['enabled'] and not admin() and not owns(record):return jsonify(error='助手尚未启用。'),404
         if version and (len(version)!=64 or any(c not in '0123456789abcdef' for c in version)):return '',404
         path=root/'local-data/assistants'/aid/('logo-'+version if version else 'logo')
         if not path.exists():return '',404
@@ -311,7 +400,7 @@ def create_app(config_path,testing=False):
         record=catalog.get(aid)
         if record.get('configuration_complete') is False:return jsonify(error='请先完成助手的完整配置。'),403
         if not record.get('active_path'):return jsonify(error='尚未发布完成构建的版本，不能预览问答。'),403
-        if not record['enabled'] and not admin():return jsonify(error='助手尚未启用。'),404
+        if not record['enabled'] and not admin() and not owns(record):return jsonify(error='助手尚未启用。'),404
         return render_template('assistant_chat.html',csrf=session['csrf'],assistant_id=aid,admin=admin(),authenticated=not local())
     @app.route('/a/<aid>/theme.css')
     def theme(aid,preview=False):
@@ -326,7 +415,7 @@ def create_app(config_path,testing=False):
     def assistant_public(aid):
         record=catalog.get(aid)
         if record.get('configuration_complete') is False:return jsonify(error='请先完成助手的完整配置。'),403
-        if not record['enabled'] and not admin():return jsonify(error='助手尚未启用。'),404
+        if not record['enabled'] and not admin() and not owns(record):return jsonify(error='助手尚未启用。'),404
         c=read(catalog.path(record,active=bool(record.get('active_path'))));logo=root/'local-data/assistants'/aid/'logo'
         version=hashlib.sha256((json.dumps(c['web'],sort_keys=True)+ (hashlib.sha256(logo.read_bytes()).hexdigest() if logo.exists() else '')).encode()).hexdigest()
         return jsonify(brand=c['web'],brand_revision=version,enabled=record['enabled'],ready=bool(record.get('active_path')),admin=admin())
@@ -343,11 +432,19 @@ def create_app(config_path,testing=False):
         with LOCK:
             p=Pipeline(catalog.path(record,active=True))
             p.blocked_documents={d.get('document_id','upload-'+d['id']) for d in DocumentStore(catalog,aid).all() if d.get('disabled')}
+            if cloud:
+                if not isinstance(body['question'],str) or not body['question'].strip() or len(body['question'])>cloud.limits['question_characters']:raise TrialError('问题不能为空，最多1000字。',400)
+                p.cfg['answer']['parameters'].update(cloud.limits.get('answer_parameters',{}))
+                p.cfg['answer']['parameters'].pop('thinking_budget',None)
+                p.cfg['answer']['parameters']['max_tokens']=min(p.cfg['answer']['parameters'].get('max_tokens',cloud.limits['answer_tokens']),cloud.limits['answer_tokens'])
             service=AnswerService(p)
         now=time.monotonic();q=recent[aid+':'+session['client']];limit=read(catalog.path(record,active=True))['web']['request_limit_per_minute']
         while q and now-q[0]>60:q.popleft()
-        if len(q)>=limit:return jsonify(error='提问过于频繁，请稍后再试。'),429
+        if not cloud and len(q)>=limit:return jsonify(error='提问过于频繁，请稍后再试。'),429
         if not slots.acquire(blocking=False):return jsonify(error='助手忙碌，请稍后再试。'),429
+        if cloud:
+            try:cloud.consume(session['client'],'question')
+            except Exception:slots.release();raise
         q.append(now)
         def record_trace():
             if not p.cfg['retrieval'].get('trace_enabled',False) or not service.last_trace:return None
@@ -432,7 +529,9 @@ def create_app(config_path,testing=False):
         except Exception:
             joblock.release();raise
         labels={'parsing':'解析与文本校验','chunking':'切分','embedding':'向量化','upload':'数据库写入','verification':'完整性检查'}
-        def persist():catalog.update(aid,job=copy.deepcopy(state))
+        def persist():
+            with LOCK:catalog.update(aid,job=copy.deepcopy(state))
+            if cloud:cloud.persist()
         def progress(stage,completed,total):
             previous=state.get('stage')
             if previous!=stage and previous in state['stages']:state['stages'][previous]['state']='done'
@@ -442,6 +541,8 @@ def create_app(config_path,testing=False):
             if stage=='upload':state['metrics']['confirmed_rows']=completed
             persist()
         def run():
+            heartbeat_stop=threading.Event()
+            if cloud:threading.Thread(target=cloud.heartbeat,args=(heartbeat_stop,),daemon=True).start()
             try:
                 if record.get('build_signature')==signature and record.get('build_path'):
                     path=root/record['build_path']
@@ -450,13 +551,21 @@ def create_app(config_path,testing=False):
                     snapshot=Pipeline(path);progress('chunking',len(snapshot.context),len(snapshot.context))
                 else:path,_=docs.prepare_version(progress=progress)
                 p=Pipeline(path)
+                if cloud:cloud.build_check(p)
                 catalog.update(aid,build_path=str(path.relative_to(root)),build_signature=signature)
-                cache=p.cache();reused=len(cache['vectors'])
+                ready=cloud.ready_index(p) if cloud else False
+                cache=cloud.reuse_vectors(p,catalog,record) if cloud and not ready else p.cache()
+                reused=len(p.rows) if ready else len(cache['vectors'])
                 state['metrics'].update(chunks=len(p.rows),total_chunks=len(p.context),reused_vectors=reused)
                 progress('embedding',reused,len(p.rows))
-                embedded=p.embed(progress=progress)
+                if cloud:cloud.consume(build_client,'vectors',len(p.rows)-reused)
+                embedded={'new_vectors':0} if ready else p.embed(progress=progress)
                 state['metrics']['new_vectors']=embedded.get('new_vectors',state['metrics']['new_vectors'])
-                progress('upload',0,len(p.rows));uploaded=p.upload(progress=progress)
+                progress('upload',0,len(p.rows))
+                if ready:
+                    uploaded={'state':'ready','written_rows':0,'confirmed_rows':len(p.rows)}
+                    progress('upload',len(p.rows),len(p.rows))
+                else:uploaded=p.upload(progress=progress)
                 progress('verification',0,None)
                 if not isinstance(uploaded,dict) or uploaded.get('state')!='ready':raise PipelineError('云端索引完整性检查未确认就绪。')
                 verified=Pipeline(path)
@@ -475,6 +584,18 @@ def create_app(config_path,testing=False):
                 state['metrics']['failed_rows']=None
                 if state.get('stage') in state['stages']:state['stages'][state['stage']]['state']='failed'
                 persist()
-            finally:joblock.release()
+            finally:
+                heartbeat_stop.set()
+                try:
+                    if cloud:
+                        with cloud_mutex:
+                            try:cloud.persist()
+                            finally:cloud.release();cloud.building=False
+                finally:joblock.release()
+        build_client=session['client']
+        if cloud:
+            try:
+                cloud.consume(build_client,'build');cloud.persist();cloud.building=True
+            except Exception:joblock.release();raise
         threading.Thread(target=run,daemon=True).start();return jsonify(catalog.get(aid)['job']),202
     return app

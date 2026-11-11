@@ -11,6 +11,8 @@ services:
       - key: APP_ENV
         value: production
       - key: APP_PUBLIC_DEMO
+        value: "0"
+      - key: APP_PUBLIC_TRIAL
         value: "1"
       - key: APP_CONFIG
         value: config/rag.railway.json

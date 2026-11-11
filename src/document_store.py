@@ -200,6 +200,9 @@ class DocumentStore:
                 did=doc['id'];document_id='upload-'+did
                 if document_id in all_ids:continue
                 preview=self.preview(did);text=preview['text'];parts=[p.strip() for p in re.split(r'\n\s*\n',text) if p.strip()]
+                if __import__('os').environ.get('APP_PUBLIC_TRIAL')=='1':
+                    size=read(self.catalog.root/'config/trial-limits.json')['chunk_characters']
+                    parts=[part[i:i+size] for part in parts for i in range(0,len(part),size)]
                 canonical=target/'knowledge/uploads'/f'{did}.txt';canonical.parent.mkdir(parents=True,exist_ok=True);canonical.write_text(text)
                 chunk_ids=[sha((self.aid+document_id+doc['text_sha256']+str(i)).encode()) for i in range(len(parts))]
                 for i,body in enumerate(parts):

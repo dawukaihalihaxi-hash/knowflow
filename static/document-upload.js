@@ -19,7 +19,7 @@ window.DocumentUploads=(()=>{
     if(items.length>=limits.max_batch_files){skipped++;continue;}
     const suffix='.'+file.name.split('.').at(-1).toLowerCase();let error='';
     if(!limits.extensions.includes(suffix))error=suffix==='.doc'?'旧版DOC请先另存为DOCX或文字PDF。':'此格式暂不支持，请转换为下方列出的格式。';
-    else if(file.size>limits.max_bytes)error='文件超过10MB，请拆分后上传。';
+    else if(file.size>limits.max_bytes)error='文件超过'+Math.round(limits.max_bytes/1024/1024)+'MB，请拆分后上传。';
     items.push({file,status:error?'failed':'pending',error,retryable:!error});
    }
    input.value='';render();if(skipped)summary.textContent+=' 本批最多'+limits.max_batch_files+'份，另有'+skipped+'份未加入；请分批上传。';

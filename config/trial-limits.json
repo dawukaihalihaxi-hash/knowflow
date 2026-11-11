@@ -1,0 +1,22 @@
+{
+  "workspace": "knowflow-trial-v1",
+  "bucket": "knowflow-private-trials",
+  "assistants_per_visitor": 1,
+  "active_assistants": 20,
+  "files": 10,
+  "file_bytes": 5242880,
+  "total_upload_bytes": 20971520,
+  "chunks": 500,
+  "chunk_characters": 1500,
+  "builds_daily": 3,
+  "questions_daily": 20,
+  "questions_minute": 3,
+  "question_characters": 1000,
+  "answer_tokens": 800,
+  "global_questions_daily": 200,
+  "global_vectors_daily": 2000,
+  "days": 7,
+  "answer_parameters": {
+    "enable_thinking": false
+  }
+}

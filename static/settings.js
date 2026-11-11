@@ -63,7 +63,7 @@ $('#settings-form').onsubmit=e=>{e.preventDefault();save();};
 window.addEventListener('beforeunload',e=>{if(dirty||queue.results().some(x=>['pending','failed'].includes(x.status))){e.preventDefault();e.returnValue='';}});
 function updateAction(){
  if(!state)return;const b=$('#primary-action');b.disabled=busy;
- if(readOnlyDemo){b.textContent='作品演示 · 只读';b.disabled=true;$('#flow-status').textContent='当前为固定知识快照，可查看配置与附件，真实问答请从工作台打开出行通。';return;}
+ if(readOnlyDemo){b.textContent='样例只读';b.disabled=true;$('#flow-status').textContent='此助手仅供查看。可回到工作台创建自己的助手，管理员登录后可修改样例。';return;}
  if(dirty){b.textContent='提交草稿';$('#flow-status').textContent='有未提交修改，当前正式问答仍使用已发布版本。';return;}
  const stage=state.lifecycle.state;
  const text={incomplete:'完善配置后提交',draft:'保存草稿',needs_build:'构建候选版本',building:'正在构建',ready_to_publish:state.lifecycle.enabled?'预览并发布新版':'预览并启用',published:'当前已发布',disabled:'启用当前版本'};
@@ -137,14 +137,14 @@ function renderJob(j){
  for(const [key,label] of Object.entries(phases)){const p=j.stages?.[key];$('#build-phases').append(node('li',label+'：'+(!p?'尚未开始':p.state==='failed'?'失败':p.state==='done'?'完成':'处理中')+(p?.total!==null&&p?.total!==undefined?` ${p.completed}/${p.total}`:'')));}
  const metrics=j.metrics||{};$('#build-metrics').replaceChildren();
  for(const [key,label] of [['total_chunks','全部片段总数'],['chunks','可检索片段总数'],['reused_vectors','复用向量数'],['new_vectors','新生成向量数'],['written_rows','本次成功写入数'],['confirmed_rows','已确认入库数'],['failed_rows','失败数'],['index_ready','索引就绪']])$('#build-metrics').append(node('dt',label),node('dd',key==='index_ready'?(metrics[key]?'已就绪':'未确认就绪'):known(metrics[key])));
- if(j.state==='failed')$('#build-status').append(button('重试失败构建',async()=>{if(dirty)throw Error('请先保存草稿。');if(!confirm('重试可能调用 Embedding 并写入数据库，确认继续？'))return;await api('/api/build?assistant='+encodeURIComponent(assistantId),{});await jobStatus();}));
+ if(j.state==='failed'&&!readOnlyDemo)$('#build-status').append(button('重试失败构建',async()=>{if(dirty)throw Error('请先保存草稿。');if(!confirm('重试可能调用 Embedding 并写入数据库，确认继续？'))return;await api('/api/build?assistant='+encodeURIComponent(assistantId),{});await jobStatus();}));
 }
 async function jobStatus(){if(!assistantId)return;try{const j=await api('/api/build?assistant='+encodeURIComponent(assistantId));renderJob(j);if(j.state==='running'){if(!poll)poll=setInterval(jobStatus,1500);}else if(poll){clearInterval(poll);poll=null;await refreshDocuments();}await refreshState();}catch(e){fail(e);if(poll){clearInterval(poll);poll=null;}}}
 async function previewCandidate(){
  const d=await api(endpoint('/preview')),box=$('#candidate-content');box.replaceChildren();box.append(node('p','候选版本：'+d.index_id),node('p','可检索片段：'+d.chunks));
  const list=node('ul');for(const item of d.documents)list.append(node('li',item[1]));box.append(list);
  for(const sample of d.samples){box.append(node('h3',sample.title),node('p',sample.text));}
- $('#candidate-chat-link').href='/admin/assistants/'+encodeURIComponent(assistantId)+'/preview-chat';$('#publish-error').textContent='';$('#candidate-dialog').showModal();
+ $('#candidate-chat-link').href='/admin/assistants/'+encodeURIComponent(assistantId)+'/preview-chat';$('#publish-error').textContent='';if(document.body.dataset.trialMode==='true')box.append(node('p','发布后，获得链接的人可以提问并看到回答引用的资料内容。原始附件不提供公开下载。','notice'));$('#candidate-dialog').showModal();
 }
 $('#confirm-publish').onclick=async()=>{try{if(dirty)throw Error('有未提交修改，请关闭预览并保存、重新构建。');await api(endpoint('/activate'),{});$('#candidate-dialog').close();await refreshDocuments();notice('发布完成，新问题使用新版本。');}catch(e){$('#publish-error').textContent=e.message;}};
 $('#close-candidate').onclick=()=>$('#candidate-dialog').close();
