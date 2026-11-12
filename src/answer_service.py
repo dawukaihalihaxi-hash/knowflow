@@ -61,18 +61,38 @@ class AnswerService:
             raise PipelineError('Invalid answer status or claim count')
         if (status=='answered' and not claims) or (status=='insufficient' and claims):raise PipelineError('Status contradicts claims')
         by_id={x['id']:x for x in evidence}
+        checked_claims=[]
         for claim in claims:
             if not isinstance(claim,dict) or set(claim)!={'text','evidence'} or not isinstance(claim['text'],str) or not claim['text'].strip() or re.search(r'https?://',claim['text']):
                 raise PipelineError('Invalid claim text')
             refs=claim['evidence']
             if not isinstance(refs,list) or not refs:raise PipelineError('Uncited claim')
+            checked_refs=[]
             for ref in refs:
                 if not isinstance(ref,dict) or set(ref)!={'id','quote'} or not isinstance(ref['id'],str) or ref['id'] not in by_id or not isinstance(ref['quote'],str):
                     raise PipelineError('Unknown citation')
-                quote=normalized(ref['quote'])
-                if len(quote)<self.cfg['minimum_quote_characters'] or quote not in normalized(by_id[ref['id']]['text']):
-                    raise PipelineError('Citation quote is absent or too short')
-        return obj
+                checked_refs.extend(self.verified_quote_parts(ref,by_id[ref['id']]['text']))
+            checked_claims.append({**claim,'evidence':checked_refs})
+        return {**obj,'claims':checked_claims}
+
+    def verified_quote_parts(self,ref,source_text):
+        source=normalized(source_text);quote=normalized(ref['quote'])
+        minimum=self.cfg['minimum_quote_characters']
+        # Preserve already valid quotations, including continuous paragraphs.
+        if len(quote)>=minimum and quote in source:return [dict(ref)]
+        # Only explicit paragraph boundaries may separate non-contiguous quotes.
+        # Each segment stays bound to the same evidence and its original order.
+        parts=[part.strip() for part in re.split(r'\n\s*\n',ref['quote']) if part.strip()]
+        if len(parts)<2:raise PipelineError('Citation quote is absent or too short')
+        checked=[];cursor=0
+        for part in parts:
+            text=normalized(part)
+            if len(text)<minimum:raise PipelineError('Citation quote is absent or too short')
+            start=source.find(text,cursor)
+            if start<0:raise PipelineError('Citation quote is absent or too short')
+            cursor=start+len(text)
+            checked.append({'id':ref['id'],'quote':part})
+        return checked
 
     def answer(self,query):
         self.last_trace={'question':query,'index_id':self.pipeline.index_id,'prompt_sha256':self.prompt_sha256}
