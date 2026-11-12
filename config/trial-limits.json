@@ -12,7 +12,7 @@
   "questions_daily": 20,
   "questions_minute": 3,
   "question_characters": 1000,
-  "answer_tokens": 800,
+  "answer_tokens": 2000,
   "global_questions_daily": 200,
   "global_vectors_daily": 2000,
   "days": 7,
