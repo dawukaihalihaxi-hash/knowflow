@@ -2,7 +2,8 @@
   "answer": [
     {
       "id": "qwen3.7-plus",
-      "label": "qwen3.7-plus"
+      "label": "qwen3.7-plus",
+      "evidence_protocol": "paragraphs-v1"
     }
   ],
   "embedding": [

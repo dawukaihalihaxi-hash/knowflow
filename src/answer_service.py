@@ -12,8 +12,10 @@ def normalized(text):
     return re.sub(r'\s+','',text)
 
 class AnswerService:
-    def __init__(self,pipeline):
+    def __init__(self,pipeline,protocol=None):
         self.pipeline=pipeline
+        if protocol not in (None,'paragraphs-v1'):raise PipelineError('Unsupported evidence protocol')
+        self.protocol=protocol
         self.last_trace={}
         self.cfg=pipeline.cfg['answer']
         c=self.cfg
@@ -22,6 +24,8 @@ class AnswerService:
         if 'business' in pipeline.cfg and foundation.exists():self.prompt=foundation.read_text()+'\n\n'+self.prompt
         if pipeline.cfg.get('business'):
             self.prompt+='\n\n助手业务设置（受平台基础规则约束）：\n'+json.dumps(pipeline.cfg['business'],ensure_ascii=False)
+        if protocol:
+            self.prompt+='\n\n'+safe_path(pipeline.root,'prompts/evidence-protocol-v1.txt').read_text()
         self.prompt_sha256=sha(self.prompt.encode())
         if PROTECTED_PARAMETERS.intersection(c['parameters']):
             raise PipelineError('Answer parameters cannot override request identity or enable tools')
@@ -114,22 +118,30 @@ class AnswerService:
         if not evidence:
             return {**base,'status':'insufficient','answer':self.cfg['messages']['insufficient'],
                     'claims':[],'sources':[],'generation_called':False,'answerability_reason':'no_evidence'}
+        protocol=None
+        if self.protocol:
+            from evidence_protocol import EvidenceProtocol
+            protocol=EvidenceProtocol(evidence,self.cfg['minimum_quote_characters'],self.cfg['max_claims'])
         payload={'model':self.cfg['model'],'messages':[{'role':'system','content':self.prompt},
-                 {'role':'user','content':json.dumps({'question':query,'evidence':evidence,'retrieval_coverage':retrieved.get('coverage')},ensure_ascii=False)}],
+                 {'role':'user','content':json.dumps({'question':query,'evidence':protocol.evidence if protocol else evidence,'retrieval_coverage':retrieved.get('coverage')},ensure_ascii=False)}],
                  **self.cfg['parameters']}
+        if protocol:payload['response_format']=protocol.response_format()
         self.last_trace['model_input']=payload
         response=request(self.cfg['base_url'].rstrip('/')+'/chat/completions','POST',payload,
                          {'Authorization':'Bearer '+require(self.cfg['api_key_env'])},self.cfg['timeout_seconds'])
         self.last_trace['model_output']={'model':response.get('model'),'usage':response.get('usage',{}),'choices':[{'finish_reason':c.get('finish_reason'),'content':c.get('message',{}).get('content')} for c in response.get('choices',[])]}
         audit={**base,'generation_called':True,'provider_model':response.get('model'),
                'usage':response.get('usage',{})}
+        choice={}
         try:
             choice=response['choices'][0]
             if choice.get('finish_reason')!='stop':raise PipelineError('Incomplete model output')
-            result=self.validate(json.loads(choice['message']['content']),evidence)
+            obj=json.loads(choice['message']['content'])
+            result=self.validate(protocol.resolve(obj) if protocol else obj,evidence)
         except (KeyError,IndexError,TypeError,json.JSONDecodeError,PipelineError) as error:
             reason='citation_quote_mismatch' if isinstance(error,PipelineError) and str(error)=='Citation quote is absent or too short' else 'invalid_model_output'
-            logging.getLogger(__name__).warning('answer_validation_failed category=%s',reason)
+            self.last_trace['validation_error']=str(error)
+            logging.getLogger(__name__).warning('answer_validation_failed category=%s detail=%s finish_reason=%s',reason,str(error),choice.get('finish_reason') if isinstance(choice,dict) else 'unknown')
             return {**audit,'status':'invalid_response','answer':self.cfg['messages']['invalid_response'],
                     'claims':[],'sources':[],'citation_validation':'failed','validation_failure_reason':reason}
         if result['status']=='insufficient':logging.getLogger(__name__).warning('answer_insufficient reason=model_decision evidence_count=%d',len(evidence))

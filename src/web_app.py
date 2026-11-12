@@ -437,7 +437,9 @@ def create_app(config_path,testing=False):
                 p.cfg['answer']['parameters'].update(cloud.limits.get('answer_parameters',{}))
                 p.cfg['answer']['parameters'].pop('thinking_budget',None)
                 p.cfg['answer']['parameters']['max_tokens']=min(p.cfg['answer']['parameters'].get('max_tokens',cloud.limits['answer_tokens']),cloud.limits['answer_tokens'])
-            service=AnswerService(p)
+            options=read(root/'config/model-options.json')
+            protocol=next((m.get('evidence_protocol') for m in options.get('answer',[]) if m['id']==p.cfg['answer']['model']),None)
+            service=AnswerService(p,protocol=protocol)
         now=time.monotonic();q=recent[aid+':'+session['client']];limit=read(catalog.path(record,active=True))['web']['request_limit_per_minute']
         while q and now-q[0]>60:q.popleft()
         if not cloud and len(q)>=limit:return jsonify(error='提问过于频繁，请稍后再试。'),429
@@ -447,7 +449,8 @@ def create_app(config_path,testing=False):
             except Exception:slots.release();raise
         q.append(now)
         def record_trace():
-            if not p.cfg['retrieval'].get('trace_enabled',False) or not service.last_trace:return None
+            failed=service.last_trace.get('result',{}).get('status')=='invalid_response'
+            if not service.last_trace or (not failed and not p.cfg['retrieval'].get('trace_enabled',False)):return None
             try:return save_trace(root,aid,service.last_trace,p.cfg['retrieval'].get('trace_retention_count',20))
             except OSError:
                 app.logger.warning('trace_storage_failed');return None

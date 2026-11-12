@@ -113,3 +113,28 @@ class WebTests(unittest.TestCase):
   self.assertFalse(self.client.get('/api/admin/assistants').get_json()['assistants'][0]['enabled'])
 
 if __name__=='__main__':unittest.main()
+
+
+class FailureTraceTests(unittest.TestCase):
+ setUp=WebTests.setUp
+ csrf=WebTests.csrf
+ post=WebTests.post
+ def test_failures_retained_when_debug_off_and_protocol_selected(self):
+  from trace_store import list_traces,load_trace
+  from settings_store import atomic
+  config=json.loads(self.path.read_text());config['retrieval']['trace_enabled']=False
+  atomic(self.path,json.dumps(config))
+  selected=[]
+  def fake_answer(service,question):
+   selected.append(service.protocol)
+   result={'status':'invalid_response','answer':'校验未通过','claims':[],'sources':[]}
+   service.last_trace={'question':question,'validation_error':'Unknown citation','result':result}
+   return result
+  with patch('web_app.AnswerService.answer',fake_answer):
+   result=self.post('/api/ask',{'question':'测试失败记录'})
+  self.assertEqual(result.status_code,200,result.get_json())
+  self.assertEqual(selected,['paragraphs-v1'])
+  records=list_traces(self.root,'chuxingtong')
+  self.assertEqual(len(records),1)
+  trace=load_trace(self.root,'chuxingtong',records[0]['id'])
+  self.assertEqual(trace['validation_error'],'Unknown citation')
